@@ -1,0 +1,569 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Sharks - Tanta Medicine</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* ===== Modern Variables ===== */
+        :root {
+            --primary: #0b5b9c;
+            --secondary: #1a73e8;
+            --accent: #ffb703;
+            --bg-gradient: linear-gradient(135deg, #f0f4f8 0%, #e1e8ed 100%);
+            --glass-bg: rgba(255, 255, 255, 0.65);
+            --glass-border: rgba(255, 255, 255, 0.4);
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-dark);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ===== Glassmorphism Navbar ===== */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-logos {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-img {
+            height: 60px;
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+            transition: transform 0.3s ease;
+        }
+
+        .logo-img:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* ===== Hero Section ===== */
+        .hero {
+            text-align: center;
+            padding: 80px 20px;
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        /* Background decorative blobs */
+        .hero::before, .hero::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            z-index: -1;
+            filter: blur(60px);
+            opacity: 0.5;
+        }
+        .hero::before {
+            width: 300px;
+            height: 300px;
+            background: #93c5fd;
+            top: -50px;
+            right: -100px;
+        }
+        .hero::after {
+            width: 250px;
+            height: 250px;
+            background: #bfdbfe;
+            bottom: -50px;
+            left: -50px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 20px;
+            line-height: 1.2;
+            text-shadow: 0 2px 10px rgba(11, 91, 156, 0.1);
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+            margin-bottom: 40px;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 10px 20px rgba(11, 91, 156, 0.2);
+        }
+        .btn-primary:hover {
+            background: var(--secondary);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 25px rgba(26, 115, 232, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* ===== Modern Search & Filter ===== */
+        .search-container {
+            max-width: 800px;
+            margin: 0 auto 50px;
+            padding: 0 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 15px 25px;
+            border-radius: 30px;
+            border: 1px solid var(--glass-border);
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            font-family: 'Tajawal', sans-serif;
+            font-size: 1rem;
+            color: var(--text-dark);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+            transition: all 0.3s ease;
+            outline: none;
+        }
+        .search-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 4px 20px rgba(11, 91, 156, 0.15);
+        }
+
+        /* ===== Brands Grid & Glass Cards ===== */
+        .directory-container {
+            max-width: 1250px;
+            margin: 0 auto;
+            padding: 0 20px 80px;
+        }
+
+        .brands-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 40px;
+            justify-items: center;
+        }
+
+        .brand-card {
+            width: 100%;
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 20px 40px rgba(11, 91, 156, 0.15);
+            border-color: rgba(255, 255, 255, 0.8);
+        }
+
+        .cover-image-container {
+            height: 220px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cover-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .brand-card:hover .cover-image {
+            transform: scale(1.08);
+        }
+
+        /* Gradient overlay on cover image */
+        .cover-image-container::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(to top, rgba(0,0,0,0.5), transparent);
+        }
+
+        .brand-info {
+            padding: 35px 25px 25px;
+            text-align: center;
+            position: relative;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-container {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: #fff;
+            padding: 5px;
+            position: absolute;
+            top: -45px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            z-index: 10;
+        }
+
+        .brand-logo {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .brand-name {
+            color: var(--primary);
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .brand-category {
+            display: inline-block;
+            background: rgba(11, 91, 156, 0.1);
+            color: var(--primary);
+            padding: 6px 15px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            border: 1px solid rgba(11, 91, 156, 0.2);
+        }
+
+        .brand-description {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 20px;
+            flex-grow: 1; /* Pushes social links to bottom */
+        }
+
+        .students-names {
+            font-size: 0.85rem;
+            color: var(--primary);
+            font-weight: 700;
+            margin-bottom: 20px;
+            background: rgba(255,255,255,0.5);
+            padding: 8px;
+            border-radius: 10px;
+        }
+
+        /* Modern Social Buttons */
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: auto;
+        }
+
+        .social-btn {
+            text-decoration: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        
+        .social-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Using emojis/icons for modern look */
+        .fb-btn { background: linear-gradient(135deg, #1877F2, #0d5cbf); }
+        .ig-btn { background: linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
+        .wa-btn { background: linear-gradient(135deg, #25D366, #128C7E); }
+
+        /* Loader */
+        .loader-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 200px;
+        }
+        .modern-loader {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(11, 91, 156, 0.2);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin { 
+            to { transform: rotate(360deg); } 
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid var(--glass-border);
+            margin-top: 50px;
+        }
+
+        .footer h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        .footer p {
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Modern Navbar with Logos -->
+    <nav class="navbar">
+        <div class="nav-logos">
+            <!-- ضع رابط لوجو الكلية الحقيقي هنا بدلاً من الرابط المؤقت -->
+            <img src="https://i.postimg.cc/brPwCWpL/Untitled-design-(2).png" alt="لوجو الكلية" class="logo-img" id="faculty-logo" title="كلية الطب - جامعة طنطا">
+            
+            <!-- ضع رابط لوجو الاتحاد الحقيقي هنا بدلاً من الرابط المؤقت -->
+            <img src="https://i.postimg.cc/tgw0N7cZ/athad.png" alt="لوجو الاتحاد" class="logo-img" id="tmsu-logo" title="اتحاد طلاب طب طنطا - T.M.S.U">
+        </div>
+        <div class="nav-title">
+            Medical Sharks 🦈
+        </div>
+    </nav>
+
+    <!-- Hero Section (Professional Copywriting) -->
+    <section class="hero">
+        <h1>حيث يلتقي الطب بالإبداع</h1>
+        <p>
+            نؤمن بأن شغفنا لا يتوقف عند حدود المدرجات. "Medical Sharks" هي مساحتنا لتسليط الضوء على إبداعات طلاب طب طنطا، حيث تتحول الأفكار الاستثنائية إلى علامات تجارية مميزة تصنع الفارق.
+        </p>
+        <div class="hero-btns">
+            <a href="#brandsGrid" class="btn btn-primary">تصفح الإبداعات</a>
+            <a href="#" class="btn btn-outline">أضف مشروعك</a>
+        </div>
+    </section>
+
+    <!-- Search Section -->
+    <div class="search-container">
+        <input type="text" id="searchInput" class="search-input" placeholder="ابحث عن براند، تصنيف، أو اسم طالب...">
+    </div>
+
+    <!-- Brands Directory -->
+    <div class="directory-container">
+        <div id="loading" class="loader-container">
+            <div class="modern-loader"></div>
+        </div>
+
+        <div id="brandsGrid" class="brands-grid">
+            <!-- Cards generated by JS -->
+        </div>
+    </div>
+
+    <!-- Footer CTA -->
+    <footer class="footer">
+        <h3>هل تمتلك مشروعك الخاص؟</h3>
+        <p>لا تدع إبداعك في الظل. انضم الآن إلى شبكة Medical Sharks واجعل علامتك التجارية جزءاً من قصة نجاحنا.</p>
+        <a href="#" class="btn btn-primary" style="padding: 10px 25px; font-size: 1rem;">تواصل مع اللجنة</a>
+    </footer>
+
+    <script>
+        // ⚠️ مهم: ضع رابط Google Script الخاص بك هنا
+        const API_URL = "https://script.google.com/macros/s/AKfycbyjHBq8COpbVnFCFJrd-AD5Cu5zetjEQzOP0Do5mUhb5mNXMtUHZix4OD0uAdCpiWdL/exec";
+        let allBrands = []; // To store data for search
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchBrands();
+
+            // Search Functionality
+            document.getElementById('searchInput').addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                const filteredBrands = allBrands.filter(brand => {
+                    return (brand.BrandName && brand.BrandName.toLowerCase().includes(searchTerm)) ||
+                           (brand.Category && brand.Category.toLowerCase().includes(searchTerm)) ||
+                           (brand.Students && brand.Students.toLowerCase().includes(searchTerm)) ||
+                           (brand.Description && brand.Description.toLowerCase().includes(searchTerm));
+                });
+                renderCards(filteredBrands);
+            });
+        });
+
+        async function fetchBrands() {
+            const loadingElement = document.getElementById('loading');
+            
+            try {
+                // If you haven't linked the API yet, we will show dummy data to demonstrate the modern look.
+                // Replace this logic with actual fetch once API is ready.
+                if(API_URL === "YOUR_GOOGLE_SCRIPT_WEB_APP_URL_HERE") {
+                    allBrands = [
+                        {
+                            BrandName: "Healer Sweets",
+                            Category: "مأكولات وحلويات",
+                            Description: "نصنع لك السعادة في كل قضمة. مزيج من المذاق الرائع والمكونات المضمونة، خُبزت بحب لتمدك بالطاقة في فترات الراحة بين المحاضرات ونبطشياتك الطويلة.",
+                            Students: "د. محمد",
+                            CoverImage: "https://images.unsplash.com/photo-1550617931-e17a7b70dce2?w=800&q=80",
+                            LogoImage: "https://via.placeholder.com/150/FFB703/fff?text=HS",
+                            Facebook: "#", WhatsApp: "201000000000"
+                        },
+                        {
+                            BrandName: "Shark Designs",
+                            Category: "مشغولات يدوية",
+                            Description: "لأن التفاصيل تصنع الفارق، نقدم لك قطعاً فنية صُممت خصيصاً لتشبهك. مزيج من الدقة الطبية واللمسة الفنية لتكون الهدية الأرقى لمن تحب.",
+                            Students: "د. أحمد، د. سارة",
+                            CoverImage: "https://images.unsplash.com/photo-1610484826967-09c5720778c7?w=800&q=80",
+                            LogoImage: "https://via.placeholder.com/150/0b5b9c/fff?text=SD",
+                            Facebook: "#", Instagram: "#"
+                        }
+                    ];
+                    setTimeout(() => {
+                        loadingElement.style.display = 'none';
+                        renderCards(allBrands);
+                    }, 1000); // Simulate network delay
+                } else {
+                    const response = await fetch(API_URL);
+                    allBrands = await response.json();
+                    loadingElement.style.display = 'none';
+                    renderCards(allBrands);
+                }
+
+            } catch (error) {
+                console.error("Error fetching data:", error);
+                loadingElement.innerHTML = "<p style='color:red;'>حدث خطأ أثناء جلب البيانات.</p>";
+            }
+        }
+
+        function renderCards(brandsData) {
+            const gridElement = document.getElementById('brandsGrid');
+            gridElement.innerHTML = ''; // Clear current
+
+            if(brandsData && brandsData.length > 0) {
+                brandsData.forEach(brand => {
+                    const cardHTML = createBrandCard(brand);
+                    gridElement.insertAdjacentHTML('beforeend', cardHTML);
+                });
+            } else {
+                 gridElement.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); font-size: 1.2rem;">لا توجد نتائج مطابقة لبحثك.</p>';
+            }
+        }
+
+        function createBrandCard(brand) {
+            let socialButtons = '';
+            
+            // Using SVG/Text for modern icons
+            if (brand.Facebook) {
+                socialButtons += `<a href="${brand.Facebook}" target="_blank" class="social-btn fb-btn" title="فيسبوك">f</a>`;
+            }
+            if (brand.Instagram) {
+                socialButtons += `<a href="${brand.Instagram}" target="_blank" class="social-btn ig-btn" title="إنستجرام">in</a>`;
+            }
+            if (brand.WhatsApp) {
+                socialButtons += `<a href="https://wa.me/${brand.WhatsApp}" target="_blank" class="social-btn wa-btn" title="واتساب">W</a>`;
+            }
+
+            const coverImg = brand.CoverImage || 'https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=800&q=80';
+            const logoImg = brand.LogoImage || 'https://via.placeholder.com/150/ffffff/0b5b9c?text=Logo';
+
+            return `
+                <div class="brand-card">
+                    <div class="cover-image-container">
+                        <img src="${coverImg}" alt="${brand.BrandName}" class="cover-image">
+                    </div>
+                    <div class="brand-info">
+                        <div class="logo-container">
+                            <img src="${logoImg}" alt="Logo" class="brand-logo">
+                        </div>
+                        <h2 class="brand-name">${brand.BrandName}</h2>
+                        <span class="brand-category">${brand.Category}</span>
+                        <p class="brand-description">${brand.Description || ''}</p>
+                        <p class="students-names">إبداع الزملاء: ${brand.Students || 'طلاب الكلية'}</p>
+                        <div class="social-links">
+                            ${socialButtons}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
