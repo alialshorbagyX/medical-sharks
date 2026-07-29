@@ -4,11 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Medical Sharks - Tanta Medicine</title>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    <title>Medical Sharks | المنصة الرسمية لمشاريع طب طنطا</title>
+    <!-- Google Fonts: Cairo for Headings, Tajawal for Body -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;800;900&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        /* ===== Modern Variables ===== */
+        /* ===== Original Brand Identity Variables (Light & Dark Mode) ===== */
         :root {
             --primary: #0b5b9c;
             --secondary: #1a73e8;
@@ -20,11 +20,24 @@
             --text-muted: #64748b;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        body.dark-mode {
+            --primary: #60a5fa;
+            --secondary: #3b82f6;
+            --accent: #f59e0b;
+            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            --glass-bg: rgba(30, 41, 59, 0.75);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-dark: #f8fafc;
+            --text-muted: #cbd5e1;
         }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        /* ===== Custom Scrollbar ===== */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-gradient); }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--secondary); }
 
         body {
             font-family: 'Tajawal', sans-serif;
@@ -32,537 +45,465 @@
             color: var(--text-dark);
             min-height: 100vh;
             overflow-x: hidden;
+            transition: background 0.5s ease, color 0.5s ease;
+            cursor: none; /* For Custom Cursor */
         }
 
-        /* ===== Glassmorphism Navbar ===== */
-        .navbar {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            background: var(--glass-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--glass-border);
-            padding: 15px 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+        /* ===== Cinematic Noise (Subtle for Light Mode too) ===== */
+        .noise-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none; z-index: 9999;
+            background-image: url('data:image/svg+xml;utf8,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noise%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noise)%22/%3E%3C/svg%3E');
+            opacity: 0.03;
         }
 
-        .nav-logos {
-            display: flex;
-            align-items: center;
-            gap: 15px;
+        /* ===== Custom Cursor ===== */
+        .custom-cursor {
+            position: fixed; width: 12px; height: 12px;
+            background-color: var(--accent); border-radius: 50%;
+            pointer-events: none; z-index: 10000;
+            transform: translate(-50%, -50%);
+            transition: width 0.2s, height 0.2s, background-color 0.2s, box-shadow 0.2s;
         }
-
-        .logo-img {
-            height: 60px;
-            width: auto;
-            object-fit: contain;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
-            transition: transform 0.3s ease;
-        }
-
-        .logo-img:hover {
-            transform: scale(1.05);
-        }
-
-        .nav-title {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--primary);
-            letter-spacing: 1px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        /* ===== Hero Section ===== */
-        .hero {
-            text-align: center;
-            padding: 80px 20px;
-            max-width: 900px;
-            margin: 0 auto;
-            position: relative;
-        }
-
-        /* Background decorative blobs */
-        .hero::before, .hero::after {
-            content: '';
-            position: absolute;
-            border-radius: 50%;
-            z-index: -1;
-            filter: blur(60px);
-            opacity: 0.5;
-        }
-        .hero::before {
-            width: 300px;
-            height: 300px;
-            background: #93c5fd;
-            top: -50px;
-            right: -100px;
-        }
-        .hero::after {
-            width: 250px;
-            height: 250px;
-            background: #bfdbfe;
-            bottom: -50px;
-            left: -50px;
-        }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            font-weight: 800;
-            color: var(--primary);
-            margin-bottom: 20px;
-            line-height: 1.2;
-            text-shadow: 0 2px 10px rgba(11, 91, 156, 0.1);
-        }
-
-        .hero p {
-            font-size: 1.25rem;
-            color: var(--text-muted);
-            line-height: 1.8;
-            margin-bottom: 40px;
-        }
-
-        .hero-btns {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-        }
-
-        .btn {
-            padding: 12px 30px;
-            border-radius: 30px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border: none;
-        }
-
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-            box-shadow: 0 10px 20px rgba(11, 91, 156, 0.2);
-        }
-        .btn-primary:hover {
-            background: var(--secondary);
-            transform: translateY(-3px);
-            box-shadow: 0 15px 25px rgba(26, 115, 232, 0.3);
-        }
-
-        .btn-outline {
-            background: transparent;
-            color: var(--primary);
+        .custom-cursor.hovered {
+            width: 40px; height: 40px;
+            background-color: transparent;
             border: 2px solid var(--primary);
-        }
-        .btn-outline:hover {
-            background: var(--primary);
-            color: white;
+            box-shadow: 0 0 15px rgba(11, 91, 156, 0.3);
         }
 
-        /* ===== Modern Search & Filter ===== */
-        .search-container {
-            max-width: 800px;
-            margin: 0 auto 50px;
-            padding: 0 20px;
-            display: flex;
-            gap: 10px;
+        /* ===== Navbar ===== */
+        .navbar {
+            position: sticky; top: 0; z-index: 100;
+            background: var(--glass-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 15px 5%; display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+            transition: all 0.5s ease;
         }
-
-        .search-input {
-            flex: 1;
-            padding: 15px 25px;
-            border-radius: 30px;
-            border: 1px solid var(--glass-border);
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            font-family: 'Tajawal', sans-serif;
-            font-size: 1rem;
-            color: var(--text-dark);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
-            transition: all 0.3s ease;
-            outline: none;
-        }
-        .search-input:focus {
-            border-color: var(--primary);
-            box-shadow: 0 4px 20px rgba(11, 91, 156, 0.15);
-        }
-
-        /* ===== Brands Grid & Glass Cards ===== */
-        .directory-container {
-            max-width: 1250px;
-            margin: 0 auto;
-            padding: 0 20px 80px;
-        }
-
-        .brands-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 40px;
-            justify-items: center;
-        }
-
-        .brand-card {
-            width: 100%;
-            background: var(--glass-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .brand-card:hover {
-            transform: translateY(-12px);
-            box-shadow: 0 20px 40px rgba(11, 91, 156, 0.15);
-            border-color: rgba(255, 255, 255, 0.8);
-        }
-
-        .cover-image-container {
-            height: 220px;
-            width: 100%;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .cover-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
+        .nav-logos { display: flex; align-items: center; gap: 15px; }
+        .logo-img { height: 50px; width: auto; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); }
+        .nav-title { font-family: 'Cairo', sans-serif; font-size: 1.5rem; font-weight: 900; color: var(--primary); letter-spacing: 1px; flex-grow: 1; text-align: center; }
         
-        .brand-card:hover .cover-image {
-            transform: scale(1.08);
+        .theme-toggle {
+            background: transparent; border: none; font-size: 1.5rem;
+            cursor: none; color: var(--text-dark); transition: 0.3s;
+            display: flex; align-items: center; justify-content: center;
+            width: 40px; height: 40px; border-radius: 50%;
         }
+        .theme-toggle:hover { background: rgba(11, 91, 156, 0.1); }
 
-        /* Gradient overlay on cover image */
-        .cover-image-container::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 50%;
-            background: linear-gradient(to top, rgba(0,0,0,0.5), transparent);
-        }
-
-        .brand-info {
-            padding: 35px 25px 25px;
-            text-align: center;
-            position: relative;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .logo-container {
-            width: 90px;
-            height: 90px;
-            border-radius: 50%;
-            background: #fff;
-            padding: 5px;
-            position: absolute;
-            top: -45px;
-            left: 50%;
-            transform: translateX(-50%);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-            z-index: 10;
-        }
-
-        .brand-logo {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-
-        .brand-name {
-            color: var(--primary);
-            font-size: 1.6rem;
-            font-weight: 800;
-            margin-bottom: 8px;
-        }
-
-        .brand-category {
-            display: inline-block;
-            background: rgba(11, 91, 156, 0.1);
-            color: var(--primary);
-            padding: 6px 15px;
-            border-radius: 30px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            margin-bottom: 15px;
-            border: 1px solid rgba(11, 91, 156, 0.2);
-        }
-
-        .brand-description {
-            font-size: 0.95rem;
-            color: var(--text-muted);
-            line-height: 1.6;
-            margin-bottom: 20px;
-            flex-grow: 1; /* Pushes social links to bottom */
-        }
-
-        .students-names {
-            font-size: 0.85rem;
-            color: var(--primary);
-            font-weight: 700;
-            margin-bottom: 20px;
-            background: rgba(255,255,255,0.5);
-            padding: 8px;
-            border-radius: 10px;
-        }
-
-        /* Modern Social Buttons */
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            margin-top: auto;
-        }
-
-        .social-btn {
-            text-decoration: none;
-            width: 45px;
-            height: 45px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.2rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
+        /* ===== Hero Section (Parallax Ready) ===== */
+        .hero { text-align: center; padding: 100px 20px 80px; max-width: 900px; margin: 0 auto; position: relative; }
+        .hero-content { transition: transform 0.1s ease-out, opacity 0.1s ease-out; }
+        .hero h1 { font-family: 'Cairo', sans-serif; font-size: 3.8rem; font-weight: 900; color: var(--primary); margin-bottom: 25px; line-height: 1.2; letter-spacing: -1px; }
+        .hero p { font-size: 1.2rem; color: var(--text-muted); line-height: 1.8; margin-bottom: 40px; max-width: 700px; margin-inline: auto; font-weight: 500; }
         
-        .social-btn:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
-        }
+        /* Buttons */
+        .btn { padding: 14px 35px; border-radius: 8px; font-family: 'Cairo', sans-serif; font-size: 1.1rem; font-weight: 700; text-decoration: none; transition: all 0.3s ease; cursor: none; display: inline-block; border: 2px solid transparent; }
+        .btn-primary { background: var(--primary); color: white; box-shadow: 0 10px 20px rgba(11, 91, 156, 0.2); }
+        .btn-primary:hover { background: var(--secondary); transform: translateY(-3px); box-shadow: 0 15px 25px rgba(26, 115, 232, 0.3); color: white;}
+        .btn-outline { background: transparent; color: var(--primary); border-color: var(--primary); }
+        .btn-outline:hover { background: var(--primary); color: white; }
+        .hero-btns { display: flex; gap: 15px; justify-content: center; }
 
-        /* Using emojis/icons for modern look */
-        .fb-btn { background: linear-gradient(135deg, #1877F2, #0d5cbf); }
-        .ig-btn { background: linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
-        .wa-btn { background: linear-gradient(135deg, #25D366, #128C7E); }
+        /* ===== Search & Filters ===== */
+        .search-container { max-width: 800px; margin: 0 auto 30px; padding: 0 20px; }
+        .search-input { width: 100%; padding: 18px 25px; border-radius: 12px; border: 1px solid var(--glass-border); background: var(--glass-bg); color: var(--text-dark); font-family: 'Tajawal', sans-serif; font-size: 1.1rem; box-shadow: 0 4px 15px rgba(0,0,0,0.02); transition: all 0.3s ease; outline: none; }
+        .search-input:focus { border-color: var(--primary); box-shadow: 0 4px 20px rgba(11, 91, 156, 0.15); }
 
-        /* Loader */
-        .loader-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 200px;
-        }
-        .modern-loader {
-            width: 50px;
-            height: 50px;
-            border: 5px solid rgba(11, 91, 156, 0.2);
-            border-top-color: var(--primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
+        .tags-container { max-width: 900px; margin: 0 auto 60px; padding: 0 20px; display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+        .tag-btn { padding: 8px 24px; border-radius: 30px; border: 1px solid var(--primary); background: transparent; color: var(--text-dark); cursor: none; transition: 0.3s; font-family: 'Tajawal', sans-serif; font-weight: 600; font-size: 1rem; }
+        .tag-btn:hover { background: rgba(11, 91, 156, 0.1); }
+        .tag-btn.active { background: var(--primary); color: white; }
 
-        @keyframes spin { 
-            to { transform: rotate(360deg); } 
-        }
-
-        /* Footer */
-        .footer {
-            background: rgba(255, 255, 255, 0.5);
-            backdrop-filter: blur(10px);
-            text-align: center;
-            padding: 40px 20px;
-            border-top: 1px solid var(--glass-border);
-            margin-top: 50px;
-        }
-
-        .footer h3 {
-            color: var(--primary);
-            margin-bottom: 15px;
-        }
+        /* ===== Brands Directory ===== */
+        .directory-container { max-width: 1300px; margin: 0 auto; padding: 0 20px 100px; }
+        .brands-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 30px; }
         
-        .footer p {
-            color: var(--text-muted);
-            margin-bottom: 20px;
-        }
+        .brand-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 16px; overflow: hidden; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: flex; flex-direction: column; cursor: none; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .brand-card:hover { transform: translateY(-10px); border-color: var(--primary); box-shadow: 0 20px 40px rgba(11, 91, 156, 0.15); }
+        
+        .cover-image-container { height: 220px; width: 100%; position: relative; overflow: hidden; }
+        .cover-image { width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s ease; }
+        .brand-card:hover .cover-image { transform: scale(1.08); }
+        .cover-image-container::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 60%; background: linear-gradient(to top, var(--glass-bg), transparent); }
+        
+        .brand-info { padding: 0 30px 30px; position: relative; flex-grow: 1; display: flex; flex-direction: column; }
+        .logo-container { width: 85px; height: 85px; border-radius: 12px; background: #fff; padding: 5px; position: absolute; top: -42px; left: 30px; border: 1px solid var(--glass-border); z-index: 10; box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+        body.dark-mode .logo-container { background: var(--bg-gradient); }
+        .brand-logo { width: 100%; height: 100%; border-radius: 8px; object-fit: cover; }
+        
+        .brand-name { font-family: 'Cairo', sans-serif; font-size: 1.6rem; font-weight: 800; margin-top: 55px; margin-bottom: 5px; color: var(--primary); }
+        .brand-category { font-size: 0.9rem; color: var(--accent); font-weight: 700; margin-bottom: 15px; display: block; }
+        .brand-description { font-size: 0.95rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 25px; flex-grow: 1; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .students-names { font-size: 0.85rem; color: var(--text-muted); font-weight: 500; border-top: 1px solid var(--glass-border); padding-top: 15px; margin-top: auto; }
+        .students-names strong { color: var(--primary); font-weight: 700; }
+
+        /* ===== Modal (Premium Window) ===== */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(8px); display: flex; justify-content: center; align-items: center; z-index: 1000; opacity: 0; visibility: hidden; transition: all 0.4s ease; }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal-content { background: var(--glass-bg); border: 1px solid var(--glass-border); width: 100%; max-width: 900px; max-height: 90vh; border-radius: 20px; overflow-y: auto; position: relative; transform: translateY(30px) scale(0.98); transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 25px 50px rgba(0,0,0,0.3); cursor: auto; }
+        .modal-overlay.active .modal-content { transform: translateY(0) scale(1); }
+        
+        .close-btn { position: absolute; top: 20px; right: 25px; font-size: 2rem; color: #fff; cursor: none; z-index: 10; background: rgba(0,0,0,0.4); width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.2); transition: 0.3s; }
+        .close-btn:hover { background: var(--primary); border-color: var(--primary); }
+        
+        .modal-header { position: relative; height: 350px; }
+        .modal-cover { width: 100%; height: 100%; object-fit: cover; }
+        .modal-header::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 80%; background: linear-gradient(to top, var(--glass-bg), transparent); }
+        
+        .modal-body { padding: 0 50px 50px; position: relative; margin-top: -60px; z-index: 2; }
+        .modal-header-flex { display: flex; gap: 25px; align-items: flex-end; margin-bottom: 30px; }
+        .modal-logo { width: 120px; height: 120px; border-radius: 16px; border: 4px solid var(--glass-bg); background: #fff; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .modal-title-wrapper { padding-bottom: 10px; }
+        .modal-title { font-family: 'Cairo', sans-serif; font-size: 2.5rem; font-weight: 900; margin-bottom: 5px; color: var(--primary); line-height: 1; }
+        .modal-category { color: var(--accent); font-size: 1rem; font-weight: 700; letter-spacing: 1px; }
+        
+        .modal-section-title { font-family: 'Cairo', sans-serif; font-size: 1.4rem; color: var(--text-dark); margin: 30px 0 15px; padding-bottom: 10px; border-bottom: 1px solid var(--glass-border); }
+        .modal-desc { font-size: 1.1rem; color: var(--text-muted); line-height: 1.8; }
+        
+        /* Social Links & Sharing */
+        .modal-social-links { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 25px; }
+        .social-link-item { display: flex; align-items: center; justify-content: center; padding: 14px; border-radius: 8px; color: white; text-decoration: none; font-weight: 700; font-family: 'Cairo', sans-serif; transition: 0.3s; cursor: none; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .social-link-item:hover { filter: brightness(1.1); transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+        .fb-btn { background: #1877F2; }
+        .ig-btn { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
+        .wa-btn { background: #25D366; }
+
+        .share-btn { width: 100%; margin-top: 15px; background: rgba(11, 91, 156, 0.05); color: var(--primary); border: 2px dashed var(--primary); padding: 14px; border-radius: 8px; font-family: 'Cairo', sans-serif; font-weight: 700; font-size: 1.1rem; cursor: none; transition: 0.3s; display: flex; justify-content: center; align-items: center; gap: 10px;}
+        .share-btn:hover { background: var(--primary); color: white; }
+        
+        .modal-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+        .gallery-img { width: 100%; height: 180px; object-fit: cover; border-radius: 12px; border: 1px solid var(--glass-border); transition: 0.3s; cursor: none; }
+        .gallery-img:hover { border-color: var(--primary); transform: scale(1.03); }
+
+        /* ===== Mega Footer (Glassmorphism Style) ===== */
+        .mega-footer { background: var(--glass-bg); backdrop-filter: blur(10px); border-top: 1px solid var(--glass-border); padding: 80px 20px 30px; margin-top: 60px; }
+        .footer-content { max-width: 1200px; margin: 0 auto; text-align: center; }
+        .footer-logo { font-family: 'Cairo', sans-serif; font-size: 2rem; font-weight: 900; margin-bottom: 20px; color: var(--primary); }
+        .footer-desc { color: var(--text-muted); max-width: 600px; margin: 0 auto 40px; line-height: 1.8; }
+        .footer-bottom { border-top: 1px solid var(--glass-border); padding-top: 30px; color: var(--text-muted); font-size: 0.95rem; }
+        
+        /* Utility */
+        .loader-container { display: flex; justify-content: center; align-items: center; min-height: 300px; width: 100%; grid-column: 1/-1;}
+        .spinner { width: 50px; height: 50px; border: 4px solid rgba(11, 91, 156, 0.1); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
     </style>
 </head>
 <body>
 
-    <!-- Modern Navbar with Logos -->
+    <!-- Visual Effects -->
+    <div class="noise-overlay"></div>
+    
+    <!-- Custom Cursor -->
+    <div class="custom-cursor" id="customCursor"></div>
+
     <nav class="navbar">
         <div class="nav-logos">
-            <!-- ضع رابط لوجو الكلية الحقيقي هنا بدلاً من الرابط المؤقت -->
-            <img src="https://i.postimg.cc/brPwCWpL/Untitled-design-(2).png" alt="لوجو الكلية" class="logo-img" id="faculty-logo" title="كلية الطب - جامعة طنطا">
-            
-            <!-- ضع رابط لوجو الاتحاد الحقيقي هنا بدلاً من الرابط المؤقت -->
-            <img src="https://i.postimg.cc/tgw0N7cZ/athad.png" alt="لوجو الاتحاد" class="logo-img" id="tmsu-logo" title="اتحاد طلاب طب طنطا - T.M.S.U">
+            <img src="https://github.com/alialshorbagyX/medical-sharks/blob/main/%D9%83%D9%84%D9%8A%D9%87.jpg?raw=true" alt="شعار الكلية" class="logo-img">
+            <img src="https://github.com/alialshorbagyX/medical-sharks/blob/main/%D8%A7%D8%AA%D8%AD%D8%A7%D8%AF.png?raw=true" alt="شعار الاتحاد" class="logo-img">
         </div>
-        <div class="nav-title">
-            Medical Sharks 🦈
-        </div>
+        <div class="nav-title">Medical Sharks</div>
+        <button class="theme-toggle" id="themeToggle" title="تبديل الوضع">🌙</button>
     </nav>
 
-    <!-- Hero Section (Professional Copywriting) -->
-    <section class="hero">
-        <h1>حيث يلتقي الطب بالإبداع</h1>
-        <p>
-            نؤمن بأن شغفنا لا يتوقف عند حدود المدرجات. "Medical Sharks" هي مساحتنا لتسليط الضوء على إبداعات طلاب طب طنطا، حيث تتحول الأفكار الاستثنائية إلى علامات تجارية مميزة تصنع الفارق.
-        </p>
-        <div class="hero-btns">
-            <a href="#brandsGrid" class="btn btn-primary">تصفح الإبداعات</a>
-            <a href="#" class="btn btn-outline">أضف مشروعك</a>
+    <section class="hero reveal active">
+        <div class="hero-content" id="heroContent">
+            <h1>المنصة الرسمية للمشاريع الطلابية</h1>
+            <p>دليل شامل يسلط الضوء على العلامات التجارية والمبادرات الخاصة بطلاب كلية الطب بجامعة طنطا، لتعزيز التواصل ودعم ريادة الأعمال الطلابية داخل الحرم الجامعي.</p>
+            <div class="hero-btns">
+                <a href="#directory" class="btn btn-primary" id="exploreBtn">تصفح الدليل</a>
+                <a href="https://forms.google.com/YOUR_FORM_ID_HERE" target="_blank" class="btn btn-outline">تسجيل مشروع جديد</a>
+            </div>
         </div>
     </section>
 
-    <!-- Search Section -->
-    <div class="search-container">
-        <input type="text" id="searchInput" class="search-input" placeholder="ابحث عن براند، تصنيف، أو اسم طالب...">
+    <!-- Search & Filters -->
+    <div class="search-container reveal" id="directory">
+        <input type="text" id="searchInput" class="search-input" placeholder="ابحث عن اسم المشروع، التصنيف، أو الطالب المالك...">
+    </div>
+    
+    <div class="tags-container reveal" id="filterTags">
+        <button class="tag-btn active" data-filter="all">عرض الكل</button>
+        <button class="tag-btn" data-filter="مأكولات">مأكولات ومشروبات</button>
+        <button class="tag-btn" data-filter="مشغولات">مشغولات يدوية</button>
+        <button class="tag-btn" data-filter="ملابس">أزياء وملابس</button>
+        <button class="tag-btn" data-filter="خدمات">خدمات طبية وتعليمية</button>
     </div>
 
     <!-- Brands Directory -->
     <div class="directory-container">
         <div id="loading" class="loader-container">
-            <div class="modern-loader"></div>
+            <div class="spinner"></div>
         </div>
+        <div id="brandsGrid" class="brands-grid"></div>
+    </div>
 
-        <div id="brandsGrid" class="brands-grid">
-            <!-- Cards generated by JS -->
+    <!-- Mega Footer -->
+    <footer class="mega-footer reveal">
+        <div class="footer-content">
+            <div class="footer-logo">Medical Sharks</div>
+            <p class="footer-desc">مبادرة طلابية تهدف إلى بناء مجتمع داعم للمواهب والمشاريع التجارية لطلاب كلية الطب بجامعة طنطا، تحت إشراف اتحاد الطلاب.</p>
+            <a href="https://forms.google.com/YOUR_FORM_ID_HERE" target="_blank" class="btn btn-primary" style="margin-bottom: 40px;">انضم إلى المنصة الآن</a>
+            
+            <div class="footer-bottom">
+                <p>تم التصميم والتطوير بحب 🫀 بواسطة <span style="color:var(--primary); font-weight:700;">فريق Medical Sharks</span> - لجنة الأنشطة باتحاد طلاب طب طنطا</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Premium Modal Structure -->
+    <div class="modal-overlay" id="brandModal" onclick="closeModal(event)">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal(event, true)">&times;</span>
+            <div class="modal-header">
+                <img src="" alt="Cover" class="modal-cover" id="modalCover">
+            </div>
+            <div class="modal-body">
+                <div class="modal-header-flex">
+                    <img src="" alt="Logo" class="modal-logo" id="modalLogo">
+                    <div class="modal-title-wrapper">
+                        <h2 class="modal-title" id="modalTitle">اسم المشروع</h2>
+                        <span class="modal-category" id="modalCategory">التصنيف</span>
+                    </div>
+                </div>
+                
+                <h4 class="modal-section-title">نبذة عن المشروع</h4>
+                <p class="modal-desc" id="modalDesc">الوصف هنا</p>
+                <p class="modal-desc" id="modalStudents" style="margin-top: 15px; color: var(--text-dark); font-weight: 700;"></p>
+                
+                <h4 class="modal-section-title">قنوات التواصل</h4>
+                <div class="modal-social-links" id="modalSocial"></div>
+                <button class="share-btn" id="smartShareBtn">🔗 شارك هذا المشروع مع الدفعة</button>
+
+                <h4 class="modal-section-title" id="galleryTitle" style="display: none;">معرض الأعمال</h4>
+                <div class="modal-gallery" id="modalGallery"></div>
+            </div>
         </div>
     </div>
 
-    <!-- Footer CTA -->
-    <footer class="footer">
-        <h3>هل تمتلك مشروعك الخاص؟</h3>
-        <p>لا تدع إبداعك في الظل. انضم الآن إلى شبكة Medical Sharks واجعل علامتك التجارية جزءاً من قصة نجاحنا.</p>
-        <a href="#" class="btn btn-primary" style="padding: 10px 25px; font-size: 1rem;">تواصل مع اللجنة</a>
-    </footer>
-
     <script>
-        // ⚠️ مهم: ضع رابط Google Script الخاص بك هنا
         const API_URL = "https://script.google.com/macros/s/AKfycbyjHBq8COpbVnFCFJrd-AD5Cu5zetjEQzOP0Do5mUhb5mNXMtUHZix4OD0uAdCpiWdL/exec";
-        let allBrands = []; // To store data for search
+        let allBrands = []; 
+        let currentFilter = 'all';
+        let currentBrandData = null; 
 
         document.addEventListener('DOMContentLoaded', () => {
+            initTheme();
+            initCustomCursor();
+            initParallax();
             fetchBrands();
+            setupFilters();
+            
+            document.getElementById('searchInput').addEventListener('input', applyFilters);
+            window.addEventListener("scroll", revealOnScroll);
+            
+            // Smooth Scroll for explore button
+            document.getElementById('exploreBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+            });
 
-            // Search Functionality
-            document.getElementById('searchInput').addEventListener('input', (e) => {
-                const searchTerm = e.target.value.toLowerCase();
-                const filteredBrands = allBrands.filter(brand => {
-                    return (brand.BrandName && brand.BrandName.toLowerCase().includes(searchTerm)) ||
-                           (brand.Category && brand.Category.toLowerCase().includes(searchTerm)) ||
-                           (brand.Students && brand.Students.toLowerCase().includes(searchTerm)) ||
-                           (brand.Description && brand.Description.toLowerCase().includes(searchTerm));
-                });
-                renderCards(filteredBrands);
+            // Smart Share Logic
+            document.getElementById("smartShareBtn").addEventListener("click", () => {
+                if (currentBrandData && navigator.share) {
+                    navigator.share({
+                        title: currentBrandData.BrandName + ' - Medical Sharks',
+                        text: 'شوف شغل زمايلنا في مشروع "' + currentBrandData.BrandName + '" على منصة Medical Sharks! 🦈',
+                        url: window.location.href
+                    }).catch(console.error);
+                } else {
+                    alert("خاصية المشاركة السريعة غير مدعومة في متصفحك الحالي. تقدر تنسخ الرابط من فوق.");
+                }
             });
         });
 
+        // --- Theme Toggle Logic ---
+        function initTheme() {
+            const themeBtn = document.getElementById('themeToggle');
+            const savedTheme = localStorage.getItem('sharks-theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                themeBtn.innerText = '☀️';
+            }
+            themeBtn.addEventListener('click', () => {
+                document.body.classList.toggle('dark-mode');
+                const isDark = document.body.classList.contains('dark-mode');
+                themeBtn.innerText = isDark ? '☀️' : '🌙';
+                localStorage.setItem('sharks-theme', isDark ? 'dark' : 'light');
+            });
+        }
+
+        // --- Custom Cursor Logic ---
+        function initCustomCursor() {
+            const cursor = document.getElementById('customCursor');
+            document.addEventListener('mousemove', (e) => {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+            });
+            
+            document.addEventListener('mouseover', (e) => {
+                if(e.target.closest('button, a, .brand-card, .gallery-img, .close-btn, input')) {
+                    cursor.classList.add('hovered');
+                }
+            });
+            document.addEventListener('mouseout', (e) => {
+                if(e.target.closest('button, a, .brand-card, .gallery-img, .close-btn, input')) {
+                    cursor.classList.remove('hovered');
+                }
+            });
+        }
+
+        // --- Parallax Effect for Hero ---
+        function initParallax() {
+            window.addEventListener('scroll', () => {
+                const heroContent = document.getElementById('heroContent');
+                let scrollPos = window.pageYOffset;
+                if(scrollPos < 600) {
+                    heroContent.style.transform = `translateY(${scrollPos * 0.3}px)`;
+                    heroContent.style.opacity = 1 - (scrollPos / 400);
+                }
+            });
+        }
+
+        // --- Scroll Reveal Logic ---
+        function revealOnScroll() {
+            var reveals = document.querySelectorAll(".reveal:not(.active)");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                if (elementTop < windowHeight - 100) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+
+        // --- Fetch Data ---
         async function fetchBrands() {
             const loadingElement = document.getElementById('loading');
-            
             try {
-                // If you haven't linked the API yet, we will show dummy data to demonstrate the modern look.
-                // Replace this logic with actual fetch once API is ready.
-                if(API_URL === "YOUR_GOOGLE_SCRIPT_WEB_APP_URL_HERE") {
+                if(API_URL === "https://script.google.com/macros/s/AKfycbyjHBq8COpbVnFCFJrd-AD5Cu5zetjEQzOP0Do5mUhb5mNXMtUHZix4OD0uAdCpiWdL/exec") {
                     allBrands = [
-                        {
-                            BrandName: "Healer Sweets",
-                            Category: "مأكولات وحلويات",
-                            Description: "نصنع لك السعادة في كل قضمة. مزيج من المذاق الرائع والمكونات المضمونة، خُبزت بحب لتمدك بالطاقة في فترات الراحة بين المحاضرات ونبطشياتك الطويلة.",
-                            Students: "د. محمد",
-                            CoverImage: "https://images.unsplash.com/photo-1550617931-e17a7b70dce2?w=800&q=80",
-                            LogoImage: "https://via.placeholder.com/150/FFB703/fff?text=HS",
-                            Facebook: "#", WhatsApp: "201000000000"
-                        },
-                        {
-                            BrandName: "Shark Designs",
-                            Category: "مشغولات يدوية",
-                            Description: "لأن التفاصيل تصنع الفارق، نقدم لك قطعاً فنية صُممت خصيصاً لتشبهك. مزيج من الدقة الطبية واللمسة الفنية لتكون الهدية الأرقى لمن تحب.",
-                            Students: "د. أحمد، د. سارة",
-                            CoverImage: "https://images.unsplash.com/photo-1610484826967-09c5720778c7?w=800&q=80",
-                            LogoImage: "https://via.placeholder.com/150/0b5b9c/fff?text=SD",
-                            Facebook: "#", Instagram: "#"
-                        }
+                        { BrandName: "Healer Sweets", Category: "مأكولات", Description: "نقدم تشكيلة فاخرة من الحلويات المصنوعة بعناية فائقة لضمان الجودة والمذاق الاستثنائي.", Students: "د. محمد", CoverImage: "https://images.unsplash.com/photo-1550617931-e17a7b70dce2?w=800", LogoImage: "https://via.placeholder.com/150/0b5b9c/ffffff?text=HS", Facebook: "#", Instagram: "#", WhatsApp: "201000000000" },
+                        { BrandName: "Shark Designs", Category: "مشغولات", Description: "تصاميم رقمية ومشغولات يدوية مصممة خصيصاً لتعكس هويتك الطبية بلمسة فنية احترافية.", Students: "د. أحمد، د. سارة", CoverImage: "https://images.unsplash.com/photo-1610484826967-09c5720778c7?w=800", LogoImage: "https://via.placeholder.com/150/0b5b9c/ffffff?text=SD" }
                     ];
-                    setTimeout(() => {
-                        loadingElement.style.display = 'none';
-                        renderCards(allBrands);
-                    }, 1000); // Simulate network delay
+                    setTimeout(() => { loadingElement.style.display = 'none'; applyFilters(); }, 600);
                 } else {
                     const response = await fetch(API_URL);
                     allBrands = await response.json();
                     loadingElement.style.display = 'none';
-                    renderCards(allBrands);
+                    applyFilters();
                 }
-
             } catch (error) {
-                console.error("Error fetching data:", error);
-                loadingElement.innerHTML = "<p style='color:red;'>حدث خطأ أثناء جلب البيانات.</p>";
+                loadingElement.innerHTML = "<p style='color:red;'>عذراً، حدث خطأ أثناء تحميل البيانات.</p>";
             }
+        }
+
+        // --- Filtering Logic ---
+        function setupFilters() {
+            const tagBtns = document.querySelectorAll('.tag-btn');
+            tagBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    tagBtns.forEach(b => b.classList.remove('active'));
+                    e.target.classList.add('active');
+                    currentFilter = e.target.getAttribute('data-filter');
+                    applyFilters();
+                });
+            });
+        }
+
+        function applyFilters() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const filteredBrands = allBrands.filter(brand => {
+                const matchesSearch = (brand.BrandName && brand.BrandName.toLowerCase().includes(searchTerm)) ||
+                                      (brand.Students && brand.Students.toLowerCase().includes(searchTerm)) ||
+                                      (brand.Description && brand.Description.toLowerCase().includes(searchTerm));
+                const matchesTag = currentFilter === 'all' || (brand.Category && brand.Category.includes(currentFilter));
+                return matchesSearch && matchesTag;
+            });
+            renderCards(filteredBrands);
         }
 
         function renderCards(brandsData) {
             const gridElement = document.getElementById('brandsGrid');
-            gridElement.innerHTML = ''; // Clear current
-
+            gridElement.innerHTML = ''; 
             if(brandsData && brandsData.length > 0) {
-                brandsData.forEach(brand => {
+                brandsData.forEach((brand) => {
                     const cardHTML = createBrandCard(brand);
                     gridElement.insertAdjacentHTML('beforeend', cardHTML);
                 });
+                setTimeout(revealOnScroll, 50); 
             } else {
-                 gridElement.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); font-size: 1.2rem;">لا توجد نتائج مطابقة لبحثك.</p>';
+                 gridElement.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); font-size: 1.2rem; padding: 40px 0;">لا توجد مشاريع مطابقة لبحثك في الوقت الحالي.</p>';
             }
         }
 
         function createBrandCard(brand) {
-            let socialButtons = '';
-            
-            // Using SVG/Text for modern icons
-            if (brand.Facebook) {
-                socialButtons += `<a href="${brand.Facebook}" target="_blank" class="social-btn fb-btn" title="فيسبوك">f</a>`;
-            }
-            if (brand.Instagram) {
-                socialButtons += `<a href="${brand.Instagram}" target="_blank" class="social-btn ig-btn" title="إنستجرام">in</a>`;
-            }
-            if (brand.WhatsApp) {
-                socialButtons += `<a href="https://wa.me/${brand.WhatsApp}" target="_blank" class="social-btn wa-btn" title="واتساب">W</a>`;
-            }
-
+            const brandJson = encodeURIComponent(JSON.stringify(brand));
             const coverImg = brand.CoverImage || 'https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=800&q=80';
             const logoImg = brand.LogoImage || 'https://via.placeholder.com/150/ffffff/0b5b9c?text=Logo';
-
             return `
-                <div class="brand-card">
-                    <div class="cover-image-container">
-                        <img src="${coverImg}" alt="${brand.BrandName}" class="cover-image">
-                    </div>
+                <div class="brand-card reveal" onclick="openModal('${brandJson}')">
+                    <div class="cover-image-container"><img src="${coverImg}" class="cover-image"></div>
                     <div class="brand-info">
-                        <div class="logo-container">
-                            <img src="${logoImg}" alt="Logo" class="brand-logo">
-                        </div>
+                        <div class="logo-container"><img src="${logoImg}" class="brand-logo"></div>
                         <h2 class="brand-name">${brand.BrandName}</h2>
                         <span class="brand-category">${brand.Category}</span>
-                        <p class="brand-description">${brand.Description || ''}</p>
-                        <p class="students-names">إبداع الزملاء: ${brand.Students || 'طلاب الكلية'}</p>
-                        <div class="social-links">
-                            ${socialButtons}
-                        </div>
+                        <p class="brand-description">${brand.Description || 'لا يوجد وصف متاح.'}</p>
+                        <p class="students-names">المؤسسون: <strong>${brand.Students || 'طلاب الكلية'}</strong></p>
                     </div>
-                </div>
-            `;
+                </div>`;
+        }
+
+        // --- Premium Modal Logic ---
+        function openModal(brandJson) {
+            const brand = JSON.parse(decodeURIComponent(brandJson));
+            currentBrandData = brand;
+
+            document.getElementById('modalCover').src = brand.CoverImage || 'https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=800&q=80';
+            document.getElementById('modalLogo').src = brand.LogoImage || 'https://via.placeholder.com/150/ffffff/0b5b9c?text=Logo';
+            document.getElementById('modalTitle').innerText = brand.BrandName;
+            document.getElementById('modalCategory').innerText = brand.Category;
+            document.getElementById('modalDesc').innerText = brand.Description || 'لم يتم إضافة تفاصيل إضافية لهذا المشروع بعد.';
+            document.getElementById('modalStudents').innerText = "فريق العمل: " + (brand.Students || 'طلاب الكلية');
+            
+            // Explicit Professional Social Links
+            let socialHTML = '';
+            if (brand.Facebook) socialHTML += `<a href="${brand.Facebook}" target="_blank" class="social-link-item fb-btn">الصفحة الرسمية (فيسبوك)</a>`;
+            if (brand.Instagram) socialHTML += `<a href="${brand.Instagram}" target="_blank" class="social-link-item ig-btn">حساب إنستجرام</a>`;
+            if (brand.WhatsApp) socialHTML += `<a href="https://wa.me/${brand.WhatsApp}" target="_blank" class="social-link-item wa-btn">التواصل المباشر (واتساب)</a>`;
+            
+            const socialContainer = document.getElementById('modalSocial');
+            if(socialHTML === '') {
+                socialContainer.innerHTML = '<p style="color:var(--text-muted);">لا توجد قنوات تواصل مسجلة حالياً.</p>';
+            } else {
+                socialContainer.innerHTML = socialHTML;
+            }
+
+            const galleryContainer = document.getElementById('modalGallery');
+            const galleryTitle = document.getElementById('galleryTitle');
+            galleryContainer.innerHTML = '';
+            let hasImages = false;
+            for(let i=1; i<=3; i++) {
+                if(brand[`Gallery${i}`]) {
+                    hasImages = true;
+                    galleryContainer.innerHTML += `<img src="${brand[`Gallery${i}`]}" class="gallery-img" onclick="window.open(this.src, '_blank')">`;
+                }
+            }
+            galleryTitle.style.display = hasImages ? 'block' : 'none';
+
+            document.getElementById('brandModal').classList.add('active');
+            document.body.style.overflow = 'hidden'; 
+        }
+
+        function closeModal(event, forceClose = false) {
+            if (forceClose || event.target.id === 'brandModal') {
+                document.getElementById('brandModal').classList.remove('active');
+                document.body.style.overflow = 'auto'; 
+            }
         }
     </script>
 </body>
