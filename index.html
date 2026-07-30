@@ -280,7 +280,7 @@
             <a href="https://forms.google.com/" target="_blank" class="btn btn-primary" style="margin-bottom: 40px; padding: 10px 30px; font-size: 1rem;">انضم إلى المنصة الآن</a>
             
             <div class="footer-bottom">
-                <p>تم التصميم والتطوير بواسطة <span style="color:var(--primary); font-weight:700;">فريق Medical Sharks</span> -   اتحاد طلاب طب طنطا</p>
+                <p>تم التصميم والتطوير بحب 🫀 بواسطة <span style="color:var(--primary); font-weight:700;">فريق Medical Sharks</span> - لجنة الأنشطة باتحاد طلاب طب طنطا</p>
             </div>
         </div>
     </footer>
@@ -310,7 +310,7 @@
 
                 <h4 class="modal-section-title">قنوات التواصل</h4>
                 <div class="modal-social-links" id="modalSocial"></div>
-                <button class="share-btn" id="smartShareBtn">🔗 شارك هذا المشروع  </button>
+                <button class="share-btn" id="smartShareBtn">🔗 شارك هذا المشروع مع الدفعة</button>
 
                 <!-- Slider / Carousel Section -->
                 <div class="modal-gallery-wrapper" id="galleryWrapper" style="display: none;">
@@ -363,19 +363,25 @@
             });
         });
 
-        // --- Drive Link Auto-Converter ---
+        // --- Drive Link Auto-Converter (Fixed Regex) ---
         function getDirectDriveLink(url) {
             if (!url) return url;
-            const driveRegex = /\/file\/d\/([a-zA-Z0-9_-]+)\//;
+            
+            // Extract Drive File ID from standard view links
+            const driveRegex = /\/file\/d\/([a-zA-Z0-9_-]+)/;
             const match = url.match(driveRegex);
             if (match && match[1]) {
-                return "https://drive.google.com/uc?export=view&id=" + match[1];
+                // Using Google Thumbnail API which successfully bypasses direct display restrictions
+                return "https://drive.google.com/thumbnail?id=" + match[1] + "&sz=w1000";
             }
+            
+            // Extract from open?id= links
             const idRegex = /[?&]id=([a-zA-Z0-9_-]+)/;
             const match2 = url.match(idRegex);
             if (match2 && match2[1] && url.includes('drive.google.com')) {
-                return "https://drive.google.com/uc?export=view&id=" + match2[1];
+                return "https://drive.google.com/thumbnail?id=" + match2[1] + "&sz=w1000";
             }
+            
             return url;
         }
 
@@ -567,7 +573,7 @@
             
             const discountContainer = document.getElementById('discountContainer');
             if (brand.DiscountCode && brand.DiscountCode.toString().trim() !== '') {
-                discountContainer.innerHTML = `<div id="discountBox" class="discount-box" onclick="copyDiscountCode('${brand.DiscountCode}')">🎁 كود خصم خاص بكم: <span>${brand.DiscountCode}</span><br><small style="font-size:0.85rem; font-weight:normal; opacity:0.8;">(اضغط لنسخ الكود)</small></div>`;
+                discountContainer.innerHTML = `<div id="discountBox" class="discount-box" onclick="copyDiscountCode('${brand.DiscountCode}')">🎁 كود خصم خاص للدفعة: <span>${brand.DiscountCode}</span><br><small style="font-size:0.85rem; font-weight:normal; opacity:0.8;">(اضغط لنسخ الكود)</small></div>`;
                 discountContainer.style.display = 'block';
             } else {
                 discountContainer.style.display = 'none';
