@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -192,7 +191,7 @@
         .modal-gallery-wrapper { margin-top: 40px; }
         .slider-container { position: relative; width: 100%; border-radius: 12px; overflow: hidden; border: 1px solid var(--glass-border); background: var(--glass-bg); }
         .slider-track { display: flex; transition: transform 0.4s ease-in-out; }
-        .slide-img { width: 100%; height: 400px; object-fit: contain; flex-shrink: 0; background: rgba(0,0,0,0.05); }
+        .slide-img { width: 100%; height: 400px; object-fit: contain; flex-shrink: 0; background: rgba(0,0,0,0.05); cursor: zoom-in; }
         .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background: var(--glass-bg); color: var(--text-dark); border: 1px solid var(--glass-border); width: 45px; height: 45px; border-radius: 50%; cursor: pointer; font-size: 1.5rem; display: flex; justify-content: center; align-items: center; z-index: 10; transition: 0.3s; padding-bottom: 4px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .slider-btn:hover { background: var(--primary); color: var(--btn-text); }
         .right-btn { right: 15px; }
@@ -201,6 +200,13 @@
         .dot { width: 12px; height: 12px; border-radius: 50%; background: var(--glass-border); cursor: pointer; transition: 0.3s; }
         .dot:hover { background: var(--accent); }
         .dot.active { background: var(--primary); }
+
+        /* ===== Lightbox (Full Screen Image) ===== */
+        .lightbox-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.9); z-index: 2000; align-items: center; justify-content: center; cursor: zoom-out; backdrop-filter: blur(5px); opacity: 0; transition: opacity 0.3s ease; }
+        .lightbox-overlay.active { opacity: 1; }
+        .lightbox-img { max-width: 95%; max-height: 95vh; border-radius: 8px; object-fit: contain; box-shadow: 0 0 30px rgba(0,0,0,0.5); transform: scale(0.95); transition: transform 0.3s ease; }
+        .lightbox-overlay.active .lightbox-img { transform: scale(1); }
+        .lightbox-close { position: absolute; top: 20px; right: 30px; color: white; font-size: 40px; cursor: pointer; z-index: 2001; }
 
         /* ===== Mega Footer ===== */
         .mega-footer { background: var(--glass-bg); backdrop-filter: blur(10px); border-top: 1px solid var(--glass-border); padding: 80px 20px 30px; margin-top: 60px; }
@@ -291,11 +297,11 @@
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal(event, true)">&times;</span>
             <div class="modal-header">
-                <img src="" alt="Cover" class="modal-cover" id="modalCover">
+                <img src="" alt="Cover" class="modal-cover" id="modalCover" onerror="this.src='https://via.placeholder.com/800x400/0f172a/ffffff?text=Image+Not+Found'">
             </div>
             <div class="modal-body">
                 <div class="modal-header-flex">
-                    <img src="" alt="Logo" class="modal-logo" id="modalLogo">
+                    <img src="" alt="Logo" class="modal-logo" id="modalLogo" onerror="this.src='https://via.placeholder.com/150/ffffff/0b5b9c?text=Logo'">
                     <div class="modal-title-wrapper">
                         <h2 class="modal-title" id="modalTitle">اسم المشروع</h2>
                         <span class="modal-category" id="modalCategory">التصنيف</span>
@@ -328,6 +334,12 @@
         </div>
     </div>
 
+    <!-- Lightbox for Full Screen Images -->
+    <div id="imageLightbox" class="lightbox-overlay" onclick="closeLightbox()">
+        <span class="lightbox-close">&times;</span>
+        <img id="lightboxImg" class="lightbox-img" src="">
+    </div>
+
     <script>
         const API_URL = "https://script.google.com/macros/s/AKfycbyjHBq8COpbVnFCFJrd-AD5Cu5zetjEQzOP0Do5mUhb5mNXMtUHZix4OD0uAdCpiWdL/exec";
         let allBrands = []; 
@@ -336,6 +348,11 @@
         
         let currentSlide = 0;
         let totalSlides = 0;
+
+        // Force Scroll to Top on Load
+        window.onload = function() {
+            setTimeout(function() { window.scrollTo(0, 0); }, 100);
+        };
 
         document.addEventListener('DOMContentLoaded', () => {
             initTheme();
@@ -364,24 +381,19 @@
             });
         });
 
-        // --- Drive Link Auto-Converter (Fixed Regex) ---
+        // --- Drive Link Auto-Converter ---
         function getDirectDriveLink(url) {
             if (!url) return url;
-            
-            // Extract Drive File ID from standard view links
             const driveRegex = /\/file\/d\/([a-zA-Z0-9_-]+)/;
             const match = url.match(driveRegex);
             if (match && match[1]) {
-                return "https://drive.google.com/thumbnail?id=" + match[1] + "&sz=w1000";
+                return "https://drive.google.com/uc?export=view&id=" + match[1];
             }
-            
-            // Extract from open?id= links
             const idRegex = /[?&]id=([a-zA-Z0-9_-]+)/;
             const match2 = url.match(idRegex);
             if (match2 && match2[1] && url.includes('drive.google.com')) {
-                return "https://drive.google.com/thumbnail?id=" + match2[1] + "&sz=w1000";
+                return "https://drive.google.com/uc?export=view&id=" + match2[1];
             }
-            
             return url;
         }
 
@@ -516,9 +528,9 @@
             return `
                 <div class="brand-card reveal" onclick="openModal('${brandJson}')">
                     ${badgeHTML}
-                    <div class="cover-image-container"><img src="${coverImg}" class="cover-image"></div>
+                    <div class="cover-image-container"><img src="${coverImg}" class="cover-image" onerror="this.src='https://via.placeholder.com/800x400/0f172a/ffffff?text=Image+Not+Found'"></div>
                     <div class="brand-info">
-                        <div class="logo-container" style="background: #fff;"><img src="${logoImg}" class="brand-logo" style="object-fit: contain;"></div>
+                        <div class="logo-container" style="background: #fff;"><img src="${logoImg}" class="brand-logo" style="object-fit: contain;" onerror="this.src='https://via.placeholder.com/150/ffffff/0b5b9c?text=Logo'"></div>
                         <h2 class="brand-name">${brand.BrandName}</h2>
                         <span class="brand-category">${brand.Category}</span>
                         <p class="brand-description">${brand.Description || 'لا يوجد وصف متاح.'}</p>
@@ -606,8 +618,12 @@
             let images = [];
             for(let i=1; i<=10; i++) {
                 let galImg = brand[`Gallery${i}`];
-                if(galImg && galImg.toString().trim() !== '') {
-                    images.push(getDirectDriveLink(galImg.toString().trim()));
+                // الفلتر الصارم: لازم الخانة تحتوي على "http" عشان يقرأها كصورة ويتجاهل المسافات
+                if(galImg) {
+                    let imgStr = galImg.toString().trim();
+                    if(imgStr !== '' && imgStr.includes('http')) {
+                        images.push(getDirectDriveLink(imgStr));
+                    }
                 }
             }
 
@@ -616,7 +632,7 @@
                 totalSlides = images.length;
                 
                 images.forEach((imgSrc, index) => {
-                    sliderTrack.innerHTML += `<img src="${imgSrc}" class="slide-img">`;
+                    sliderTrack.innerHTML += `<img src="${imgSrc}" class="slide-img" onclick="openLightbox(this.src)" onerror="this.src='https://via.placeholder.com/800x400/0f172a/ffffff?text=Error+Loading+Image'">`;
                     dotsContainer.innerHTML += `<div class="dot ${index === 0 ? 'active' : ''}" onclick="goToSlide(${index})"></div>`;
                 });
                 
@@ -632,6 +648,22 @@
             document.body.style.overflow = 'hidden'; 
         }
 
+        // --- Lightbox Functions ---
+        function openLightbox(src) {
+            if(src.includes('Error+Loading+Image')) return; 
+            const lb = document.getElementById('imageLightbox');
+            document.getElementById('lightboxImg').src = src;
+            lb.style.display = 'flex';
+            setTimeout(() => lb.classList.add('active'), 10);
+        }
+
+        function closeLightbox() {
+            const lb = document.getElementById('imageLightbox');
+            lb.classList.remove('active');
+            setTimeout(() => lb.style.display = 'none', 300);
+        }
+
+        // --- Slider Functions ---
         function moveSlide(direction) {
             currentSlide = (currentSlide + direction + totalSlides) % totalSlides;
             updateSlider();
