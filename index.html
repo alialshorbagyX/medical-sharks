@@ -280,7 +280,7 @@
             <a href="https://forms.google.com/" target="_blank" class="btn btn-primary" style="margin-bottom: 40px; padding: 10px 30px; font-size: 1rem;">انضم إلى المنصة الآن</a>
             
             <div class="footer-bottom">
-                <p>تم التصميم والتطوير بواسطة <span style="color:var(--primary); font-weight:700;">فريق Medical Sharks</span> - اتحاد طلاب طب طنطا</p>
+                <p>تم التصميم والتطوير بواسطة <span style="color:var(--primary); font-weight:700;">فريق Medical Sharks</span> -   اتحاد طلاب طب طنطا</p>
             </div>
         </div>
     </footer>
@@ -362,6 +362,24 @@
                 }
             });
         });
+
+        // --- Drive Link Auto-Converter ---
+        function getDirectDriveLink(url) {
+            if (!url) return url;
+            // Match standard drive.google.com/file/d/ID/view
+            const driveRegex = /\\/file\\/d\\/([a-zA-Z0-9_-]+)\\//;
+            const match = url.match(driveRegex);
+            if (match && match[1]) {
+                return "https://drive.google.com/uc?export=view&id=" + match[1];
+            }
+            // Match drive.google.com/open?id=ID
+            const idRegex = /[?&]id=([a-zA-Z0-9_-]+)/;
+            const match2 = url.match(idRegex);
+            if (match2 && match2[1] && url.includes('drive.google.com')) {
+                return "https://drive.google.com/uc?export=view&id=" + match2[1];
+            }
+            return url;
+        }
 
         // --- Theme Toggle Logic ---
         function initTheme() {
@@ -486,10 +504,10 @@
 
         function createBrandCard(brand, isBotM) {
             const brandJson = encodeURIComponent(JSON.stringify(brand));
-            const coverImg = brand.CoverImage || 'https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=800&q=80';
-            const logoImg = brand.LogoImage || 'https://via.placeholder.com/150/ffffff/0b5b9c?text=Logo';
+            const coverImg = getDirectDriveLink(brand.CoverImage) || 'https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=800&q=80';
+            const logoImg = getDirectDriveLink(brand.LogoImage) || 'https://via.placeholder.com/150/ffffff/0b5b9c?text=Logo';
             
-            const badgeHTML = isBotM ? `<div class="botm-badge">🏆 براند الشهر</div>` : '';
+            const badgeHTML = isBotM ? '<div class="botm-badge">🏆 براند الشهر</div>' : '';
             
             return `
                 <div class="brand-card reveal" onclick="openModal('${brandJson}')">
@@ -505,7 +523,7 @@
                 </div>`;
         }
         
-        // Anti-Spam Tracking Update (No syntax errors)
+        // Anti-Spam Tracking Update 
         function trackAction(brandName, actionType) {
             const storageKey = "ms_track_" + brandName + "_" + actionType;
             const now = new Date().getTime();
@@ -536,8 +554,8 @@
             const brand = JSON.parse(decodeURIComponent(brandJson));
             currentBrandData = brand;
 
-            document.getElementById('modalCover').src = brand.CoverImage || 'https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=800&q=80';
-            document.getElementById('modalLogo').src = brand.LogoImage || 'https://via.placeholder.com/150/ffffff/0b5b9c?text=Logo';
+            document.getElementById('modalCover').src = getDirectDriveLink(brand.CoverImage) || 'https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=800&q=80';
+            document.getElementById('modalLogo').src = getDirectDriveLink(brand.LogoImage) || 'https://via.placeholder.com/150/ffffff/0b5b9c?text=Logo';
             
             const isBotm = brand.BrandOfTheMonth && brand.BrandOfTheMonth.toString().trim() !== '' && brand.BrandOfTheMonth.toString().toLowerCase() !== 'false';
             const titleHTML = isBotm 
@@ -551,7 +569,7 @@
             
             const discountContainer = document.getElementById('discountContainer');
             if (brand.DiscountCode && brand.DiscountCode.toString().trim() !== '') {
-                discountContainer.innerHTML = '<div id="discountBox" class="discount-box" onclick="copyDiscountCode(\'' + brand.DiscountCode + '\')">🎁 كود خصم خاص بكم: <span>' + brand.DiscountCode + '</span><br><small style="font-size:0.85rem; font-weight:normal; opacity:0.8;">(اضغط لنسخ الكود)</small></div>';
+                discountContainer.innerHTML = '<div id="discountBox" class="discount-box" onclick="copyDiscountCode(\\'' + brand.DiscountCode + '\\')">🎁 كود خصم خاص بكم: <span>' + brand.DiscountCode + '</span><br><small style="font-size:0.85rem; font-weight:normal; opacity:0.8;">(اضغط لنسخ الكود)</small></div>';
                 discountContainer.style.display = 'block';
             } else {
                 discountContainer.style.display = 'none';
@@ -561,9 +579,9 @@
             trackAction(brand.BrandName, 'view');
             
             let socialHTML = '';
-            if (brand.Facebook) socialHTML += '<a href="' + brand.Facebook + '" target="_blank" class="social-link-item fb-btn" onclick="trackAction(\'' + brand.BrandName + '\', \'click\')">فيسبوك</a>';
-            if (brand.Instagram) socialHTML += '<a href="' + brand.Instagram + '" target="_blank" class="social-link-item ig-btn" onclick="trackAction(\'' + brand.BrandName + '\', \'click\')">إنستجرام</a>';
-            if (brand.WhatsApp) socialHTML += '<a href="https://wa.me/' + brand.WhatsApp + '" target="_blank" class="social-link-item wa-btn" onclick="trackAction(\'' + brand.BrandName + '\', \'click\')">واتساب</a>';
+            if (brand.Facebook) socialHTML += '<a href="' + brand.Facebook + '" target="_blank" class="social-link-item fb-btn" onclick="trackAction(\\'' + brand.BrandName + '\\', \\'click\\')">فيسبوك</a>';
+            if (brand.Instagram) socialHTML += '<a href="' + brand.Instagram + '" target="_blank" class="social-link-item ig-btn" onclick="trackAction(\\'' + brand.BrandName + '\\', \\'click\\')">إنستجرام</a>';
+            if (brand.WhatsApp) socialHTML += '<a href="https://wa.me/' + brand.WhatsApp + '" target="_blank" class="social-link-item wa-btn" onclick="trackAction(\\'' + brand.BrandName + '\\', \\'click\\')">واتساب</a>';
             
             const socialContainer = document.getElementById('modalSocial');
             if(socialHTML === '') {
@@ -583,7 +601,7 @@
 
             let images = [];
             for(let i=1; i<=10; i++) {
-                if(brand[`Gallery${i}`]) images.push(brand[`Gallery${i}`]);
+                if(brand[`Gallery${i}`]) images.push(getDirectDriveLink(brand[`Gallery${i}`]));
             }
 
             if (images.length > 0) {
