@@ -20,6 +20,7 @@
             --text-muted: #64748b;
             --shadow-color: rgba(0, 0, 0, 0.08);
             --btn-text: #ffffff;
+            --botm-glow: 0 0 20px rgba(217, 119, 6, 0.4);
         }
 
         /* ===== Cinematic Dark Mode ===== */
@@ -34,6 +35,7 @@
             --text-muted: #cbd5e1;
             --shadow-color: rgba(0, 0, 0, 0.3);
             --btn-text: #0f172a;
+            --botm-glow: 0 0 25px rgba(245, 158, 11, 0.3);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -53,7 +55,7 @@
             transition: background 0.5s ease, color 0.5s ease;
         }
 
-        /* Subtly Textured Background (Not harsh) */
+        /* Subtly Textured Background */
         .noise-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             pointer-events: none; z-index: 9999;
@@ -72,7 +74,6 @@
         }
         
         .nav-logos { display: flex; align-items: center; gap: 12px; }
-        /* Logo Fix: White Circular Badge for both JPG and PNG */
         .nav-logo-wrapper {
             width: 45px; height: 45px; background: #ffffff; border-radius: 50%;
             padding: 2px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);
@@ -116,19 +117,27 @@
 
         /* ===== Brands Directory ===== */
         .directory-container { max-width: 1300px; margin: 0 auto; padding: 0 20px 100px; }
-        .brands-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 30px; }
         
+        /* Spotlight Section (Brand of the Month) */
+        .spotlight-section { margin-bottom: 60px; }
+        .spotlight-title { font-family: 'Cairo', sans-serif; color: var(--primary); text-align: center; margin-bottom: 25px; font-size: 2.2rem; display: flex; justify-content: center; align-items: center; gap: 10px; font-weight: 900; }
+        
+        .brands-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 30px; }
+        .spotlight-grid { display: flex; justify-content: center; flex-wrap: wrap; gap: 30px; }
+        .spotlight-grid .brand-card { max-width: 450px; width: 100%; border: 2px solid var(--primary); box-shadow: var(--botm-glow); }
+        
+        /* Brand Card */
         .brand-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 16px; overflow: hidden; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: flex; flex-direction: column; cursor: pointer; position: relative; box-shadow: 0 10px 30px var(--shadow-color); }
         .brand-card:hover { transform: translateY(-10px); border-color: var(--primary); }
         
+        .botm-badge { position: absolute; top: 15px; right: 15px; background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; padding: 5px 15px; border-radius: 20px; font-family: 'Cairo', sans-serif; font-size: 0.9rem; font-weight: 800; z-index: 20; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+
         .cover-image-container { height: 220px; width: 100%; position: relative; overflow: hidden; }
         .cover-image { width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s ease; }
         .brand-card:hover .cover-image { transform: scale(1.05); }
         .cover-image-container::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 60%; background: linear-gradient(to top, var(--glass-bg), transparent); }
         
         .brand-info { padding: 0 30px 30px; position: relative; flex-grow: 1; display: flex; flex-direction: column; }
-        
-        /* Logo Card Fix */
         .logo-container { width: 85px; height: 85px; border-radius: 12px; background: #fff; padding: 4px; position: absolute; top: -42px; left: 30px; border: 1px solid var(--glass-border); z-index: 10; box-shadow: 0 8px 20px rgba(0,0,0,0.1); display: flex; justify-content: center; align-items: center; overflow: hidden; }
         .brand-logo { width: 100%; height: 100%; border-radius: 8px; object-fit: contain; }
         
@@ -155,12 +164,19 @@
         .modal-header-flex { display: flex; gap: 25px; align-items: flex-end; margin-bottom: 30px; }
         .modal-logo { width: 120px; height: 120px; border-radius: 16px; border: 4px solid var(--glass-bg); background: #fff; box-shadow: 0 10px 25px rgba(0,0,0,0.1); object-fit: contain; }
         .modal-title-wrapper { padding-bottom: 10px; }
-        .modal-title { font-family: 'Cairo', sans-serif; font-size: 2.5rem; font-weight: 900; margin-bottom: 5px; color: var(--primary); line-height: 1; }
+        .modal-title { font-family: 'Cairo', sans-serif; font-size: 2.5rem; font-weight: 900; margin-bottom: 5px; color: var(--primary); line-height: 1; display: flex; align-items: center; gap: 10px; }
         .modal-category { color: var(--accent); font-size: 1rem; font-weight: 700; letter-spacing: 1px; }
         
         .modal-section-title { font-family: 'Cairo', sans-serif; font-size: 1.4rem; color: var(--text-dark); margin: 30px 0 15px; padding-bottom: 10px; border-bottom: 1px solid var(--glass-border); }
         .modal-desc { font-size: 1.1rem; color: var(--text-muted); line-height: 1.8; }
         
+        /* Discount Box */
+        .discount-code-wrapper { margin-top: 20px; display: none; }
+        .discount-box { background: rgba(217, 119, 6, 0.1); border: 2px dashed var(--primary); color: var(--primary); padding: 15px; border-radius: 8px; text-align: center; font-family: 'Cairo', sans-serif; font-weight: 800; font-size: 1.2rem; cursor: pointer; transition: 0.3s; width: 100%; }
+        .discount-box span { color: var(--accent); letter-spacing: 2px; font-size: 1.4rem; margin: 0 10px; }
+        .discount-box:hover { background: var(--primary); color: var(--btn-text); border-style: solid; }
+        .discount-box:hover span { color: var(--btn-text); }
+
         /* Social Links */
         .modal-social-links { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 25px; }
         .social-link-item { display: flex; align-items: center; justify-content: center; padding: 14px; border-radius: 8px; color: white; text-decoration: none; font-weight: 700; font-family: 'Cairo', sans-serif; transition: 0.3s; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
@@ -207,7 +223,6 @@
 
     <nav class="navbar">
         <div class="nav-logos">
-            <!-- White circular wrapper applied to fix JPG backgrounds gracefully -->
             <div class="nav-logo-wrapper">
                 <img src="https://github.com/alialshorbagyX/medical-sharks/blob/main/%D9%83%D9%84%D9%8A%D9%87.jpg?raw=true" alt="شعار الكلية" class="logo-img">
             </div>
@@ -248,6 +263,13 @@
         <div id="loading" class="loader-container">
             <div class="spinner"></div>
         </div>
+        
+        <!-- Spotlight: Brand of the Month -->
+        <div id="spotlightSection" class="spotlight-section reveal" style="display: none;">
+            <h2 class="spotlight-title">🏆 نجم الشهر 🏆</h2>
+            <div id="spotlightGrid" class="spotlight-grid"></div>
+        </div>
+
         <div id="brandsGrid" class="brands-grid"></div>
     </div>
 
@@ -284,6 +306,9 @@
                 <p class="modal-desc" id="modalDesc">الوصف هنا</p>
                 <p class="modal-desc" id="modalStudents" style="margin-top: 15px; color: var(--text-dark); font-weight: 700;"></p>
                 
+                <!-- Discount Box -->
+                <div id="discountContainer" class="discount-code-wrapper"></div>
+
                 <h4 class="modal-section-title">قنوات التواصل</h4>
                 <div class="modal-social-links" id="modalSocial"></div>
                 <button class="share-btn" id="smartShareBtn">🔗 شارك هذا المشروع </button>
@@ -343,7 +368,6 @@
         function initTheme() {
             const themeBtn = document.getElementById('themeToggle');
             const savedTheme = localStorage.getItem('sharks-theme');
-            // Default to light mode unless dark is saved
             if (savedTheme === 'dark') {
                 document.body.classList.add('dark-mode');
                 themeBtn.innerText = '☀️';
@@ -419,27 +443,64 @@
 
         function renderCards(brandsData) {
             const gridElement = document.getElementById('brandsGrid');
+            const spotlightSection = document.getElementById('spotlightSection');
+            const spotlightGrid = document.getElementById('spotlightGrid');
+            
             gridElement.innerHTML = ''; 
+            spotlightGrid.innerHTML = '';
+            
+            let regularBrands = [];
+            let botmBrands = [];
+            
+            // Separate Brand of the Month from Regular
             if(brandsData && brandsData.length > 0) {
                 brandsData.forEach((brand) => {
-                    const cardHTML = createBrandCard(brand);
-                    gridElement.insertAdjacentHTML('beforeend', cardHTML);
+                    if (brand.BrandOfTheMonth && brand.BrandOfTheMonth.toString().trim() !== '' && brand.BrandOfTheMonth.toString().toLowerCase() !== 'false') {
+                        botmBrands.push(brand);
+                    } else {
+                        regularBrands.push(brand);
+                    }
+                });
+            }
+
+            // Render Spotlight only if there is a botm and user is not searching/filtering specific categories
+            const searchTerm = document.getElementById('searchInput').value;
+            if (botmBrands.length > 0 && currentFilter === 'all' && searchTerm === '') {
+                spotlightSection.style.display = 'block';
+                botmBrands.forEach((brand) => {
+                    spotlightGrid.insertAdjacentHTML('beforeend', createBrandCard(brand, true));
+                });
+            } else {
+                spotlightSection.style.display = 'none';
+                // If they are searching, mix the BOTM back in so it can be found
+                if (searchTerm !== '' || currentFilter !== 'all') {
+                    regularBrands = [...botmBrands, ...regularBrands];
+                }
+            }
+
+            // Render Regular Brands
+            if(regularBrands.length > 0) {
+                regularBrands.forEach((brand) => {
+                    gridElement.insertAdjacentHTML('beforeend', createBrandCard(brand, false));
                 });
                 setTimeout(revealOnScroll, 50); 
-            } else {
+            } else if (botmBrands.length === 0) {
                  gridElement.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); font-size: 1.2rem; padding: 40px 0;">لا توجد مشاريع مطابقة لبحثك في الوقت الحالي.</p>';
             }
         }
 
-        function createBrandCard(brand) {
+        function createBrandCard(brand, isBotM) {
             const brandJson = encodeURIComponent(JSON.stringify(brand));
             const coverImg = brand.CoverImage || 'https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=800&q=80';
             const logoImg = brand.LogoImage || 'https://via.placeholder.com/150/ffffff/0b5b9c?text=Logo';
+            
+            const badgeHTML = isBotM ? `<div class="botm-badge">🏆 براند الشهر</div>` : '';
+            
             return `
                 <div class="brand-card reveal" onclick="openModal('${brandJson}')">
+                    ${badgeHTML}
                     <div class="cover-image-container"><img src="${coverImg}" class="cover-image"></div>
                     <div class="brand-info">
-                        <!-- Applied white background fix to brand logos as well -->
                         <div class="logo-container" style="background: #fff;"><img src="${logoImg}" class="brand-logo" style="object-fit: contain;"></div>
                         <h2 class="brand-name">${brand.BrandName}</h2>
                         <span class="brand-category">${brand.Category}</span>
@@ -448,6 +509,33 @@
                     </div>
                 </div>`;
         }
+        
+        function trackAction(brandName, actionType) {
+            const storageKey = \`ms_track_\${brandName}_\${actionType}\`;
+            const now = new Date().getTime();
+            const lastTracked = localStorage.getItem(storageKey);
+            if (lastTracked && (now - parseInt(lastTracked)) < 43200000) return; 
+            localStorage.setItem(storageKey, now.toString());
+            const trackUrl = \`\${API_URL}?action=track&brand=\${encodeURIComponent(brandName)}&type=\${actionType}\`;
+            fetch(trackUrl).catch(e => console.error("Tracking Error"));
+        }
+
+        // Copy Discount Code Function
+        function copyDiscountCode(code) {
+            navigator.clipboard.writeText(code).then(() => {
+                const box = document.getElementById('discountBox');
+                const originalHTML = box.innerHTML;
+                box.innerHTML = '✅ تم نسخ الكود بنجاح!';
+                box.style.background = '#25D366';
+                box.style.color = '#fff';
+                box.style.borderColor = '#25D366';
+                
+                setTimeout(() => {
+                    box.innerHTML = originalHTML;
+                    box.style = '';
+                }, 2000);
+            });
+        }
 
         function openModal(brandJson) {
             const brand = JSON.parse(decodeURIComponent(brandJson));
@@ -455,15 +543,32 @@
 
             document.getElementById('modalCover').src = brand.CoverImage || 'https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=800&q=80';
             document.getElementById('modalLogo').src = brand.LogoImage || 'https://via.placeholder.com/150/ffffff/0b5b9c?text=Logo';
-            document.getElementById('modalTitle').innerText = brand.BrandName;
+            
+            const titleHTML = brand.BrandOfTheMonth && brand.BrandOfTheMonth.toString().trim() !== '' && brand.BrandOfTheMonth.toString().toLowerCase() !== 'false' 
+                ? `${brand.BrandName} <span style="font-size: 1.5rem;" title="براند الشهر">🏆</span>` 
+                : brand.BrandName;
+            document.getElementById('modalTitle').innerHTML = titleHTML;
+            
             document.getElementById('modalCategory').innerText = brand.Category;
             document.getElementById('modalDesc').innerText = brand.Description || 'لم يتم إضافة تفاصيل إضافية لهذا المشروع بعد.';
             document.getElementById('modalStudents').innerText = "فريق العمل: " + (brand.Students || 'طلاب الكلية');
             
+            // Discount Code Logic
+            const discountContainer = document.getElementById('discountContainer');
+            if (brand.DiscountCode && brand.DiscountCode.toString().trim() !== '') {
+                discountContainer.innerHTML = `<div id="discountBox" class="discount-box" onclick="copyDiscountCode('${brand.DiscountCode}')">🎁 كود خصم خاص بكم: <span>${brand.DiscountCode}</span><br><small style="font-size:0.85rem; font-weight:normal; opacity:0.8;">(اضغط لنسخ الكود)</small></div>`;
+                discountContainer.style.display = 'block';
+            } else {
+                discountContainer.style.display = 'none';
+                discountContainer.innerHTML = '';
+            }
+            
+            trackAction(brand.BrandName, 'view');
+            
             let socialHTML = '';
-            if (brand.Facebook) socialHTML += `<a href="${brand.Facebook}" target="_blank" class="social-link-item fb-btn">فيسبوك</a>`;
-            if (brand.Instagram) socialHTML += `<a href="${brand.Instagram}" target="_blank" class="social-link-item ig-btn">إنستجرام</a>`;
-            if (brand.WhatsApp) socialHTML += `<a href="https://wa.me/${brand.WhatsApp}" target="_blank" class="social-link-item wa-btn">واتساب</a>`;
+            if (brand.Facebook) socialHTML += `<a href="${brand.Facebook}" target="_blank" class="social-link-item fb-btn" onclick="trackAction('${brand.BrandName}', 'click')">فيسبوك</a>`;
+            if (brand.Instagram) socialHTML += `<a href="${brand.Instagram}" target="_blank" class="social-link-item ig-btn" onclick="trackAction('${brand.BrandName}', 'click')">إنستجرام</a>`;
+            if (brand.WhatsApp) socialHTML += `<a href="https://wa.me/${brand.WhatsApp}" target="_blank" class="social-link-item wa-btn" onclick="trackAction('${brand.BrandName}', 'click')">واتساب</a>`;
             
             const socialContainer = document.getElementById('modalSocial');
             if(socialHTML === '') {
