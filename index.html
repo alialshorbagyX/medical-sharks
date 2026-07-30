@@ -354,7 +354,7 @@
                 if (currentBrandData && navigator.share) {
                     navigator.share({
                         title: currentBrandData.BrandName + ' - Medical Sharks',
-                        text: 'شوف شغل زمايلنا في مشروع "' + currentBrandData.BrandName + '" على منصة Medical Sharks! 🦈',
+                        text: `شوف شغل زمايلنا في مشروع "${currentBrandData.BrandName}" على منصة Medical Sharks! 🦈`,
                         url: window.location.href
                     }).catch(console.error);
                 } else {
@@ -366,13 +366,11 @@
         // --- Drive Link Auto-Converter ---
         function getDirectDriveLink(url) {
             if (!url) return url;
-            // Match standard drive.google.com/file/d/ID/view
-            const driveRegex = /\\/file\\/d\\/([a-zA-Z0-9_-]+)\\//;
+            const driveRegex = /\/file\/d\/([a-zA-Z0-9_-]+)\//;
             const match = url.match(driveRegex);
             if (match && match[1]) {
                 return "https://drive.google.com/uc?export=view&id=" + match[1];
             }
-            // Match drive.google.com/open?id=ID
             const idRegex = /[?&]id=([a-zA-Z0-9_-]+)/;
             const match2 = url.match(idRegex);
             if (match2 && match2[1] && url.includes('drive.google.com')) {
@@ -507,7 +505,7 @@
             const coverImg = getDirectDriveLink(brand.CoverImage) || 'https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=800&q=80';
             const logoImg = getDirectDriveLink(brand.LogoImage) || 'https://via.placeholder.com/150/ffffff/0b5b9c?text=Logo';
             
-            const badgeHTML = isBotM ? '<div class="botm-badge">🏆 براند الشهر</div>' : '';
+            const badgeHTML = isBotM ? `<div class="botm-badge">🏆 براند الشهر</div>` : '';
             
             return `
                 <div class="brand-card reveal" onclick="openModal('${brandJson}')">
@@ -525,12 +523,12 @@
         
         // Anti-Spam Tracking Update 
         function trackAction(brandName, actionType) {
-            const storageKey = "ms_track_" + brandName + "_" + actionType;
+            const storageKey = `ms_track_${brandName}_${actionType}`;
             const now = new Date().getTime();
             const lastTracked = localStorage.getItem(storageKey);
             if (lastTracked && (now - parseInt(lastTracked)) < 43200000) return; 
             localStorage.setItem(storageKey, now.toString());
-            const trackUrl = API_URL + "?action=track&brand=" + encodeURIComponent(brandName) + "&type=" + actionType;
+            const trackUrl = `${API_URL}?action=track&brand=${encodeURIComponent(brandName)}&type=${actionType}`;
             fetch(trackUrl).catch(e => console.error("Tracking Error"));
         }
 
@@ -559,7 +557,7 @@
             
             const isBotm = brand.BrandOfTheMonth && brand.BrandOfTheMonth.toString().trim() !== '' && brand.BrandOfTheMonth.toString().toLowerCase() !== 'false';
             const titleHTML = isBotm 
-                ? brand.BrandName + ' <span style="font-size: 1.5rem;" title="براند الشهر">🏆</span>' 
+                ? `${brand.BrandName} <span style="font-size: 1.5rem;" title="براند الشهر">🏆</span>` 
                 : brand.BrandName;
             document.getElementById('modalTitle').innerHTML = titleHTML;
             
@@ -569,7 +567,7 @@
             
             const discountContainer = document.getElementById('discountContainer');
             if (brand.DiscountCode && brand.DiscountCode.toString().trim() !== '') {
-                discountContainer.innerHTML = '<div id="discountBox" class="discount-box" onclick="copyDiscountCode(\\'' + brand.DiscountCode + '\\')">🎁 كود خصم خاص بكم: <span>' + brand.DiscountCode + '</span><br><small style="font-size:0.85rem; font-weight:normal; opacity:0.8;">(اضغط لنسخ الكود)</small></div>';
+                discountContainer.innerHTML = `<div id="discountBox" class="discount-box" onclick="copyDiscountCode('${brand.DiscountCode}')">🎁 كود خصم خاص بكم: <span>${brand.DiscountCode}</span><br><small style="font-size:0.85rem; font-weight:normal; opacity:0.8;">(اضغط لنسخ الكود)</small></div>`;
                 discountContainer.style.display = 'block';
             } else {
                 discountContainer.style.display = 'none';
@@ -579,9 +577,9 @@
             trackAction(brand.BrandName, 'view');
             
             let socialHTML = '';
-            if (brand.Facebook) socialHTML += '<a href="' + brand.Facebook + '" target="_blank" class="social-link-item fb-btn" onclick="trackAction(\\'' + brand.BrandName + '\\', \\'click\\')">فيسبوك</a>';
-            if (brand.Instagram) socialHTML += '<a href="' + brand.Instagram + '" target="_blank" class="social-link-item ig-btn" onclick="trackAction(\\'' + brand.BrandName + '\\', \\'click\\')">إنستجرام</a>';
-            if (brand.WhatsApp) socialHTML += '<a href="https://wa.me/' + brand.WhatsApp + '" target="_blank" class="social-link-item wa-btn" onclick="trackAction(\\'' + brand.BrandName + '\\', \\'click\\')">واتساب</a>';
+            if (brand.Facebook) socialHTML += `<a href="${brand.Facebook}" target="_blank" class="social-link-item fb-btn" onclick="trackAction('${brand.BrandName}', 'click')">فيسبوك</a>`;
+            if (brand.Instagram) socialHTML += `<a href="${brand.Instagram}" target="_blank" class="social-link-item ig-btn" onclick="trackAction('${brand.BrandName}', 'click')">إنستجرام</a>`;
+            if (brand.WhatsApp) socialHTML += `<a href="https://wa.me/${brand.WhatsApp}" target="_blank" class="social-link-item wa-btn" onclick="trackAction('${brand.BrandName}', 'click')">واتساب</a>`;
             
             const socialContainer = document.getElementById('modalSocial');
             if(socialHTML === '') {
