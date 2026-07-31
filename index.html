@@ -287,7 +287,7 @@
             <a href="https://forms.google.com/" target="_blank" class="btn btn-primary" style="margin-bottom: 40px; padding: 10px 30px; font-size: 1rem;">انضم إلى المنصة الآن</a>
             
             <div class="footer-bottom">
-                <p>تم التصميم والتطوير بواسطة <span style="color:var(--primary); font-weight:700;">فريق Medical Sharks</span> -   اتحاد طلاب طب طنطا</p>
+                <p>تم التصميم والتطوير بواسطة <span style="color:var(--primary); font-weight:700;">فريق Medical Sharks</span> - اتحاد طلاب طب طنطا</p>
             </div>
         </div>
     </footer>
@@ -381,18 +381,23 @@
             });
         });
 
-        // --- Drive Link Auto-Converter ---
+        // --- Drive Link Auto-Converter (Strongest Path lh3) ---
         function getDirectDriveLink(url) {
             if (!url) return url;
+            let fileId = null;
             const driveRegex = /\/file\/d\/([a-zA-Z0-9_-]+)/;
             const match = url.match(driveRegex);
             if (match && match[1]) {
-                return "https://drive.google.com/uc?export=view&id=" + match[1];
+                fileId = match[1];
+            } else {
+                const idRegex = /[?&]id=([a-zA-Z0-9_-]+)/;
+                const match2 = url.match(idRegex);
+                if (match2 && match2[1] && url.includes('drive.google.com')) {
+                    fileId = match2[1];
+                }
             }
-            const idRegex = /[?&]id=([a-zA-Z0-9_-]+)/;
-            const match2 = url.match(idRegex);
-            if (match2 && match2[1] && url.includes('drive.google.com')) {
-                return "https://drive.google.com/uc?export=view&id=" + match2[1];
+            if (fileId) {
+                return "https://lh3.googleusercontent.com/d/" + fileId;
             }
             return url;
         }
@@ -618,7 +623,7 @@
             let images = [];
             for(let i=1; i<=10; i++) {
                 let galImg = brand[`Gallery${i}`];
-                // الفلتر الصارم: لازم الخانة تحتوي على "http" عشان يقرأها كصورة ويتجاهل المسافات
+                // الفلتر الصارم
                 if(galImg) {
                     let imgStr = galImg.toString().trim();
                     if(imgStr !== '' && imgStr.includes('http')) {
