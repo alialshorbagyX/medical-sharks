@@ -234,10 +234,8 @@
         .spotlight-section { margin-bottom: 60px; }
         .spotlight-title { font-family: 'Cairo', sans-serif; color: var(--primary); text-align: center; margin-bottom: 25px; font-size: 2.2rem; display: flex; justify-content: center; align-items: center; gap: 10px; font-weight: 900; }
 
-        /* Grid & List Views */
+        /* Grid Views */
         .brands-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 30px; }
-        .brands-list { display: grid; grid-template-columns: 1fr; gap: 30px; }
-        .brands-list .brand-card { max-width: 800px; margin: 0 auto; width: 100%; }
         
         .spotlight-grid { display: flex; justify-content: center; flex-wrap: wrap; gap: 30px; }
         .spotlight-grid .brand-card {
@@ -667,41 +665,6 @@
         .toast.hiding { animation: slideOut 0.3s forwards; }
         @keyframes slideOut { to { opacity: 0; transform: translateX(400px); } }
 
-        /* ===== Sort Controls ===== */
-        .controls-container { max-width: 1300px; margin: 0 auto 30px; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
-        .sort-dropdown {
-            padding: 14px 24px; border-radius: 12px;
-            border: 2px solid var(--card-border);
-            background: var(--card-bg);
-            color: var(--text-dark); font-family: 'Tajawal', sans-serif;
-            font-size: 1.05rem; font-weight: 600;
-            cursor: pointer; transition: all var(--transition-base);
-            outline: none; box-shadow: var(--shadow-sm);
-        }
-        .sort-dropdown:hover, .sort-dropdown:focus {
-            border-color: var(--primary);
-            box-shadow: var(--shadow-md);
-            transform: translateY(-2px);
-        }
-        .view-toggle { display: flex; gap: 10px; }
-        .view-btn {
-            width: 45px; height: 45px;
-            border: 2px solid var(--card-border);
-            background: var(--card-bg);
-            border-radius: 10px; cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
-            transition: all var(--transition-base);
-            box-shadow: var(--shadow-sm);
-        }
-        .view-btn:hover, .view-btn.active {
-            background: var(--primary);
-            color: var(--btn-text);
-            border-color: var(--primary);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-        .view-btn svg { width: 22px; height: 22px; }
-
         /* ===== Stats Counter ===== */
         .stats-container { max-width: 1100px; margin: 0 auto 60px; padding: 0 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 25px; }
         .stat-card {
@@ -800,6 +763,15 @@
             to { transform: scale(4); opacity: 0; }
         }
 
+        /* ===== Enhanced Badge Animations ===== */
+        .botm-badge {
+            animation: badge-glow 2s ease-in-out infinite;
+        }
+        @keyframes badge-glow {
+            0%, 100% { box-shadow: var(--shadow-lg); }
+            50% { box-shadow: var(--shadow-xl), 0 0 30px rgba(217, 119, 6, 0.6); }
+        }
+
         /* ===== Scroll Progress Indicator ===== */
         .scroll-progress {
             position: fixed; bottom: 0; left: 0; right: 0;
@@ -835,6 +807,24 @@
             100% {
                 box-shadow: 0 0 0 20px rgba(11, 91, 156, 0);
             }
+        }
+
+        /* Pull to Refresh Indicator */
+        .pull-to-refresh {
+            position: fixed;
+            top: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: top 0.3s;
+        }
+        .pull-to-refresh.active {
+            top: 20px;
         }
 
         /* =========================================================
@@ -921,10 +911,7 @@
                 min-width: auto;
                 box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
             }
-            .controls-container { flex-direction: column; align-items: stretch; }
-            .sort-dropdown { width: 100%; }
             
-            /* التعديل الجديد لصف الإحصائيات - 4 في صف واحد */
             .stats-container { grid-template-columns: repeat(4, 1fr); gap: 6px; padding: 0 10px; margin-bottom: 40px; }
             .stat-card { padding: 15px 5px; border-radius: 12px; border-width: 1px; }
             .stat-card::before { height: 3px; }
@@ -945,7 +932,7 @@
             .modal-category { display: block; text-align: center; margin-top: 5px; width: 100%; }
             
             .modal-body { padding: 0 20px 30px; margin-top: 0; }
-            .brands-grid, .brands-list { grid-template-columns: 1fr; }
+            .brands-grid { grid-template-columns: 1fr; }
             .search-input { font-size: 1rem; padding: 15px 20px; }
             .tag-btn { font-size: 0.9rem; padding: 6px 18px; }
         }
@@ -1042,25 +1029,6 @@
 
     <div class="tags-container reveal" id="filterTags"></div>
 
-    <!-- Sort and View Controls -->
-    <div class="controls-container reveal" id="controlsContainer" style="display: none;">
-        <select id="sortDropdown" class="sort-dropdown" aria-label="ترتيب المشاريع">
-            <option value="default">الترتيب الافتراضي</option>
-            <option value="name-asc">الاسم (أ - ي)</option>
-            <option value="name-desc">الاسم (ي - أ)</option>
-            <option value="views-desc">الأكثر مشاهدة</option>
-            <option value="newest">الأحدث أولاً</option>
-        </select>
-        <div class="view-toggle">
-            <button class="view-btn active" id="gridView" aria-label="عرض شبكي" title="عرض شبكي">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
-            </button>
-            <button class="view-btn" id="listView" aria-label="عرض قائمة" title="عرض قائمة">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
-            </button>
-        </div>
-    </div>
-
     <!-- Brands Directory -->
     <div class="directory-container">
         <div id="loading" class="loader-container"><div class="spinner"></div></div>
@@ -1141,7 +1109,6 @@
         let allBrands = [];
         let currentFilter = 'all';
         let currentBrandData = null;
-        let currentSort = 'default';
 
         let currentSlide = 0;
         let totalSlides = 0;
@@ -1181,46 +1148,6 @@
             });
         }
 
-        // ===== Sort & View Controls =====
-        function initViewControls() {
-            const gridBtn = document.getElementById('gridView');
-            const listBtn = document.getElementById('listView');
-            const brandsContainer = document.getElementById('brandsGrid');
-
-            gridBtn.addEventListener('click', () => {
-                gridBtn.classList.add('active');
-                listBtn.classList.remove('active');
-                brandsContainer.classList.remove('brands-list');
-                brandsContainer.classList.add('brands-grid');
-            });
-
-            listBtn.addEventListener('click', () => {
-                listBtn.classList.add('active');
-                gridBtn.classList.remove('active');
-                brandsContainer.classList.remove('brands-grid');
-                brandsContainer.classList.add('brands-list');
-            });
-        }
-
-        function initSortControls() {
-            const dropdown = document.getElementById('sortDropdown');
-            dropdown.addEventListener('change', (e) => {
-                currentSort = e.target.value;
-                applyFilters();
-            });
-        }
-
-        function sortBrands(brands) {
-            let sorted = [...brands];
-            switch(currentSort) {
-                case 'name-asc': sorted.sort((a, b) => a.BrandName.localeCompare(b.BrandName, 'ar')); break;
-                case 'name-desc': sorted.sort((a, b) => b.BrandName.localeCompare(a.BrandName, 'ar')); break;
-                case 'views-desc': sorted.sort((a, b) => (parseInt(b.Views) || 0) - (parseInt(a.Views) || 0)); break;
-                case 'newest': sorted.reverse(); break;
-            }
-            return sorted;
-        }
-
         // ===== Stats Counter =====
         function updateStats() {
             const categories = new Set(allBrands.map(b => b.Category).filter(c => c));
@@ -1239,7 +1166,6 @@
             animateCounter('totalStudents', students.size);
 
             document.getElementById('statsContainer').style.display = 'grid';
-            document.getElementById('controlsContainer').style.display = 'flex';
         }
 
         function animateCounter(id, target) {
@@ -1292,8 +1218,6 @@
             initTheme();
             initParallax();
             initBackToTop();
-            initSortControls();
-            initViewControls(); 
             initFloatingParticles();
             initScrollProgress();
             initRippleEffect();
@@ -1315,7 +1239,6 @@
                         text: `شوف شغل زمايلنا في مشروع "${currentBrandData.BrandName}" على منصة Medical Sharks! 🦈`,
                         url: window.location.href
                     }).then(() => {
-                        showToast('تم المشاركة بنجاح! 🎉', 'success');
                     }).catch(err => {
                         if (err.name !== 'AbortError') {
                             navigator.clipboard.writeText(window.location.href);
@@ -1465,7 +1388,10 @@
                 const matchesTag = currentFilter === 'all' || (brand.Category && brand.Category.includes(currentFilter));
                 return matchesSearch && matchesTag;
             });
-            filteredBrands = sortBrands(filteredBrands);
+            
+            // ترتيب المشاريع الافتراضي (الأحدث أولاً)
+            filteredBrands.reverse();
+            
             renderCards(filteredBrands);
         }
 
@@ -1763,7 +1689,12 @@
             pullIndicator.className = 'pull-to-refresh'; pullIndicator.innerHTML = '↻'; pullIndicator.style.fontSize = '24px';
             document.body.appendChild(pullIndicator);
 
-            document.addEventListener('touchstart', (e) => { if (window.scrollY === 0) { pullStartY = e.touches[0].clientY; isPulling = true; } });
+            document.addEventListener('touchstart', (e) => { 
+                const modal = document.getElementById('brandModal');
+                if (modal && modal.classList.contains('active')) return; // تم إيقاف السحب للتحديث في حالة فتح الكارت
+                
+                if (window.scrollY === 0) { pullStartY = e.touches[0].clientY; isPulling = true; } 
+            });
             document.addEventListener('touchmove', (e) => {
                 if (!isPulling) return;
                 const pullDistance = e.touches[0].clientY - pullStartY;
@@ -1771,7 +1702,8 @@
             });
             document.addEventListener('touchend', (e) => {
                 if (!isPulling) return;
-                if (e.changedTouches[0].clientY - pullStartY > 80) { triggerHaptic('heavy'); location.reload(); }
+                const pullDistance = e.changedTouches[0].clientY - pullStartY;
+                if (pullDistance > 80) { triggerHaptic('heavy'); location.reload(); }
                 pullIndicator.classList.remove('active'); pullIndicator.style.transform = 'translateX(-50%) rotate(0deg)';
                 isPulling = false;
             });
