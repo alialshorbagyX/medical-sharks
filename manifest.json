@@ -1,0 +1,28 @@
+{
+  "name": "Medical Sharks - المنصة الرسمية لمشاريع طب طنطا",
+  "short_name": "Medical Sharks",
+  "description": "منصة ريادة الأعمال بطلاب كلية الطب - جامعة طنطا",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#0b5b9c",
+  "orientation": "portrait-primary",
+  "dir": "rtl",
+  "lang": "ar",
+  "icons": [
+    {
+      "src": "https://lh3.googleusercontent.com/d/1XPTpqy_pgQpZmfm6hmWDMemB0jHKy4uS",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://lh3.googleusercontent.com/d/1XPTpqy_pgQpZmfm6hmWDMemB0jHKy4uS",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["education", "business", "medical"],
+  "screenshots": []
+}
