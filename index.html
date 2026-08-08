@@ -590,10 +590,6 @@
             font-family: 'Cairo', sans-serif; font-size: 2.5rem;
             font-weight: 900; margin-bottom: 20px;
             color: var(--primary);
-            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
         .footer-desc {
             color: var(--text-muted); max-width: 650px;
@@ -757,10 +753,6 @@
             *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
         }
 
-        /* ===== Image Lazy Loading Blur Effect ===== */
-        img[loading="lazy"] { filter: blur(5px); transition: filter 0.3s; }
-        img[loading="lazy"].loaded { filter: blur(0); }
-
         /* ===== Page Loading Progress Bar ===== */
         .page-progress {
             position: fixed; top: 0; left: 0; right: 0;
@@ -828,20 +820,6 @@
             background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
             transform: scaleX(0); transform-origin: left;
             transition: transform 0.1s ease;
-        }
-
-        /* ===== Enhanced Hero Title Animation ===== */
-        .hero-main-title {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: gradient-shift 3s ease infinite;
-            background-size: 200% 200%;
-        }
-        @keyframes gradient-shift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
         }
 
         /* ===== Futuristic Mobile Enhancements ===== */
@@ -1054,7 +1032,7 @@
                 نُسلط الضوء على العلامات التجارية والمبادرات الواعدة التي يقودها أطباء المستقبل لنصنع بيئة متكاملة تُعزز التواصل وتدعم الفكر الريادي وتحول الأفكار الطبية والإبداعية إلى مشاريع ناجحة داخل الحرم الجامعي وخارجه.
             </p>
             <div class="hero-btns">
-                <a href="#directory" class="btn btn-primary" id="exploreBtn">تصفح الدليل</a>
+                <a href="#directory" class="btn btn-primary" id="exploreBtn">تصفح المشاريع</a>
                 <a href="https://forms.gle/AfWX4H6XoUfS6ZBF6" target="_blank" class="btn btn-outline">تسجيل مشروع جديد</a>
             </div>
         </div>
@@ -1337,7 +1315,7 @@
             initParallax();
             initBackToTop();
             initSortControls();
-            initViewControls(); // تفعيل كود شبكة/قائمة
+            initViewControls(); 
             initFloatingParticles();
             initScrollProgress();
             initRippleEffect();
@@ -1352,7 +1330,7 @@
             });
 
             document.getElementById("smartShareBtn").addEventListener("click", () => {
-                createConfetti(); // إطلاق الاحتفال عند الضغط
+                createConfetti(); 
                 if (currentBrandData && navigator.share) {
                     navigator.share({
                         title: currentBrandData.BrandName + ' - Medical Sharks',
@@ -1454,7 +1432,6 @@
                 updateStats();
                 generateDynamicCategories();
                 applyFilters();
-                showToast('تم تحميل المشاريع بنجاح! 🦈', 'success');
             } catch (error) {
                 hideSkeletonLoaders();
                 if (error.name === 'AbortError') {
@@ -1464,10 +1441,8 @@
                             <button onclick="location.reload()" class="btn btn-primary" style="padding: 10px 25px;">تحديث</button>
                         </div>
                     `;
-                    showToast('حدث تأخير في التحميل، حاول مرة أخرى', 'error');
                 } else {
                     document.getElementById('brandsGrid').innerHTML = "<p style='color:red; text-align:center; grid-column: 1/-1; padding: 40px;'>عذراً، حدث خطأ في الاتصال بقاعدة البيانات. يرجى المحاولة لاحقاً.</p>";
-                    showToast('حدث خطأ في تحميل البيانات', 'error');
                 }
             }
         }
@@ -1561,11 +1536,11 @@
                 <div class="brand-card reveal" onclick="openModal('${brandJson}')" role="article" aria-label="مشروع ${brand.BrandName}" tabindex="0">
                     ${badgeHTML}
                     <div class="cover-image-container">
-                        <img loading="lazy" src="${coverImg}" class="cover-image" alt="صورة غلاف ${brand.BrandName}" onerror="this.src='https://via.placeholder.com/800x400/0f172a/ffffff?text=Image+Not+Found'">
+                        <img src="${coverImg}" class="cover-image" alt="صورة غلاف ${brand.BrandName}" onerror="this.src='https://via.placeholder.com/800x400/0f172a/ffffff?text=Image+Not+Found'">
                     </div>
                     <div class="brand-info">
                         <div class="logo-container" style="background: #fff;">
-                            <img loading="lazy" src="${logoImg}" class="brand-logo" style="object-fit: contain;" alt="شعار ${brand.BrandName}" onerror="this.src='https://via.placeholder.com/150/ffffff/0b5b9c?text=Logo'">
+                            <img src="${logoImg}" class="brand-logo" style="object-fit: contain;" alt="شعار ${brand.BrandName}" onerror="this.src='https://via.placeholder.com/150/ffffff/0b5b9c?text=Logo'">
                         </div>
                         <h2 class="brand-name">${brand.BrandName}</h2>
                         <span class="brand-category">${brand.Category}</span>
@@ -1604,7 +1579,6 @@
             const brand = JSON.parse(decodeURIComponent(brandJson));
             currentBrandData = brand;
             
-            // حل مشكلة النزول لآخر الشاشة (إرجاع الكارت من البداية)
             const modalContent = document.querySelector('#brandModal .modal-content');
             if(modalContent) modalContent.scrollTop = 0;
 
@@ -1838,7 +1812,7 @@
                 navigator.serviceWorker.register('./sw.js')
                     .then(registration => {
                         console.log('ServiceWorker registered successfully:', registration.scope);
-                        showToast('يمكنك الآن استخدام الموقع بدون إنترنت! 🚀', 'success', 4000);
+                        // showToast('يمكنك الآن استخدام الموقع بدون إنترنت! 🚀', 'success', 4000);
                     }).catch(error => { console.log('ServiceWorker registration failed:', error); });
             });
         }
