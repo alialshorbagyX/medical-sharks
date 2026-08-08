@@ -234,7 +234,11 @@
         .spotlight-section { margin-bottom: 60px; }
         .spotlight-title { font-family: 'Cairo', sans-serif; color: var(--primary); text-align: center; margin-bottom: 25px; font-size: 2.2rem; display: flex; justify-content: center; align-items: center; gap: 10px; font-weight: 900; }
 
+        /* Grid & List Views */
         .brands-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 30px; }
+        .brands-list { display: grid; grid-template-columns: 1fr; gap: 30px; }
+        .brands-list .brand-card { max-width: 800px; margin: 0 auto; width: 100%; }
+        
         .spotlight-grid { display: flex; justify-content: center; flex-wrap: wrap; gap: 30px; }
         .spotlight-grid .brand-card {
             max-width: 450px; width: 100%;
@@ -781,70 +785,6 @@
             66% { transform: translateY(50px) translateX(-30px) scale(0.8); }
         }
 
-        /* ===== Search Suggestions ===== */
-        .search-suggestions {
-            position: absolute; top: 100%; left: 0; right: 0;
-            background: var(--card-bg); border: 2px solid var(--card-border);
-            border-radius: 12px; margin-top: 8px;
-            box-shadow: var(--shadow-lg); max-height: 300px;
-            overflow-y: auto; display: none; z-index: 50;
-        }
-        .search-suggestions.show { display: block; }
-        .suggestion-item {
-            padding: 12px 20px; cursor: pointer;
-            transition: all var(--transition-fast);
-            border-bottom: 1px solid var(--card-border);
-            display: flex; align-items: center; gap: 10px;
-        }
-        .suggestion-item:last-child { border-bottom: none; }
-        .suggestion-item:hover {
-            background: var(--primary); color: var(--btn-text);
-        }
-        .suggestion-icon { font-size: 1.2rem; }
-
-        /* ===== Empty State ===== */
-        .empty-state {
-            text-align: center; padding: 80px 20px;
-            grid-column: 1/-1;
-        }
-        .empty-state-icon {
-            font-size: 5rem; margin-bottom: 20px;
-            opacity: 0.5; animation: float 3s ease-in-out infinite;
-        }
-        .empty-state-title {
-            font-family: 'Cairo', sans-serif; font-size: 1.8rem;
-            font-weight: 800; color: var(--text-dark);
-            margin-bottom: 10px;
-        }
-        .empty-state-desc {
-            color: var(--text-muted); font-size: 1.1rem;
-            max-width: 400px; margin: 0 auto;
-        }
-
-        /* ===== Category Icons ===== */
-        .category-icon {
-            display: inline-flex; align-items: center;
-            justify-content: center; width: 35px; height: 35px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-            border-radius: 50%; color: white;
-            font-size: 1.1rem; margin-left: 8px;
-        }
-
-        /* ===== Image Loading Progress ===== */
-        .image-loader {
-            position: absolute; top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 50px; height: 50px;
-        }
-        .image-loader::after {
-            content: ''; display: block;
-            width: 50px; height: 50px;
-            border-radius: 50%;
-            border: 4px solid var(--card-border);
-            border-top-color: var(--primary);
-            animation: spin 1s linear infinite;
-        }
-
         /* ===== Confetti Effect ===== */
         .confetti {
             position: fixed; width: 10px; height: 10px;
@@ -890,25 +830,6 @@
             transition: transform 0.1s ease;
         }
 
-        /* ===== Typing Indicator for Search ===== */
-        .typing-indicator {
-            display: none; align-items: center; gap: 4px;
-            position: absolute; right: 20px; top: 50%;
-            transform: translateY(-50%);
-        }
-        .typing-indicator.show { display: flex; }
-        .typing-dot {
-            width: 8px; height: 8px; border-radius: 50%;
-            background: var(--primary);
-            animation: typing 1.4s infinite;
-        }
-        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-        @keyframes typing {
-            0%, 60%, 100% { transform: translateY(0); }
-            30% { transform: translateY(-10px); }
-        }
-
         /* ===== Enhanced Hero Title Animation ===== */
         .hero-main-title {
             background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
@@ -925,31 +846,6 @@
 
         /* ===== Futuristic Mobile Enhancements ===== */
 
-        /* Neon Glow Effects */
-        .neon-border {
-            position: relative;
-            overflow: hidden;
-        }
-        .neon-border::before {
-            content: '';
-            position: absolute;
-            top: -2px; left: -2px; right: -2px; bottom: -2px;
-            background: linear-gradient(45deg, var(--primary), var(--accent), var(--primary));
-            background-size: 400% 400%;
-            border-radius: inherit;
-            z-index: -1;
-            animation: neon-glow 3s ease infinite;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        .neon-border:hover::before {
-            opacity: 1;
-        }
-        @keyframes neon-glow {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
         /* 3D Card Transform */
         .brand-card-3d {
             transform-style: preserve-3d;
@@ -957,51 +853,6 @@
         }
         .brand-card:active {
             transform: perspective(1000px) rotateX(5deg) translateY(-5px) scale(0.98);
-        }
-
-        /* Holographic Effect */
-        .holographic {
-            position: relative;
-            overflow: hidden;
-        }
-        .holographic::after {
-            content: '';
-            position: absolute;
-            top: -50%; left: -50%;
-            width: 200%; height: 200%;
-            background: linear-gradient(
-                45deg,
-                transparent 30%,
-                rgba(255, 255, 255, 0.1) 50%,
-                transparent 70%
-            );
-            transform: rotate(45deg);
-            animation: holographic-shine 3s infinite;
-        }
-        @keyframes holographic-shine {
-            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
-        }
-
-        /* Futuristic Button Styles */
-        .futuristic-btn {
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
-        }
-        .futuristic-btn::before {
-            content: '';
-            position: absolute;
-            top: 50%; left: 50%;
-            width: 0; height: 0;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.3);
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-        .futuristic-btn:active::before {
-            width: 300px;
-            height: 300px;
         }
 
         /* Touch Feedback Pulse */
@@ -1015,73 +866,6 @@
             100% {
                 box-shadow: 0 0 0 20px rgba(11, 91, 156, 0);
             }
-        }
-
-        /* Glassmorphism Enhanced */
-        .glass-effect {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
-        }
-
-        /* Cyberpunk Grid Background */
-        .cyber-grid {
-            background-image:
-                linear-gradient(rgba(11, 91, 156, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(11, 91, 156, 0.05) 1px, transparent 1px);
-            background-size: 50px 50px;
-            animation: grid-scroll 20s linear infinite;
-        }
-        @keyframes grid-scroll {
-            0% { background-position: 0 0; }
-            100% { background-position: 50px 50px; }
-        }
-
-        /* Floating Action Button (FAB) for Mobile */
-        .fab-menu {
-            position: fixed;
-            bottom: 80px;
-            right: 20px;
-            z-index: 998;
-            display: none;
-        }
-        .fab-main {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            color: white;
-            border: none;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        }
-        .fab-main:active {
-            transform: scale(0.9);
-        }
-        .fab-menu.open .fab-main {
-            transform: rotate(45deg);
-        }
-
-        /* Swipe Indicator */
-        .swipe-indicator {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 5px;
-            opacity: 0.5;
-            animation: bounce 2s infinite;
-        }
-        @keyframes bounce {
-            0%, 100% { transform: translateX(-50%) translateY(0); }
-            50% { transform: translateX(-50%) translateY(-10px); }
         }
 
         /* Pull to Refresh Indicator */
@@ -1106,30 +890,10 @@
            ===== Mobile & Responsive Adjustments =====
            ========================================================= */
         @media (max-width: 768px) {
-            /* Enable Futuristic Effects on Mobile */
             body {
                 -webkit-tap-highlight-color: transparent;
                 touch-action: manipulation;
             }
-
-            /* Add Cyber Grid to Body */
-            body::before {
-                content: '';
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background-image:
-                    linear-gradient(rgba(11, 91, 156, 0.03) 1px, transparent 1px),
-                    linear-gradient(90deg, rgba(11, 91, 156, 0.03) 1px, transparent 1px);
-                background-size: 30px 30px;
-                pointer-events: none;
-                z-index: 0;
-                animation: grid-scroll 30s linear infinite;
-            }
-
-            .fab-menu { display: block; }
 
             .navbar {
                 flex-wrap: wrap;
@@ -1188,29 +952,12 @@
                 box-shadow: 0 4px 15px rgba(11, 91, 156, 0.3);
             }
 
-            /* Enhanced Mobile Cards */
             .brand-card {
                 border-radius: 24px;
                 box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
                 border: 2px solid transparent;
                 background: var(--card-bg);
                 position: relative;
-            }
-            .brand-card::before {
-                content: '';
-                position: absolute;
-                inset: 0;
-                border-radius: 24px;
-                padding: 2px;
-                background: linear-gradient(135deg, var(--primary), var(--accent));
-                -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-                -webkit-mask-composite: xor;
-                mask-composite: exclude;
-                opacity: 0;
-                transition: opacity 0.3s;
-            }
-            .brand-card:active::before {
-                opacity: 1;
             }
 
             .back-to-top {
@@ -1231,7 +978,6 @@
             .stat-number { font-size: 2rem; }
             .skeleton-container { grid-template-columns: 1fr; }
             
-            /* تعديل الأيقونة في الموبايل */
             .close-btn { top: 15px; right: 15px; width: 38px; height: 38px; }
             .close-btn svg { width: 18px; height: 18px; }
             
@@ -1239,19 +985,18 @@
             .modal-logo { width: 90px; height: 90px; margin-top: -45px; border-width: 3px; }
             .modal-header-flex { flex-direction: column; align-items: center; text-align: center; gap: 15px; margin-bottom: 20px; }
             
-            /* التعديل الإجباري لتوسيط الاسم والتصنيف */
             .modal-title-wrapper { align-items: center; text-align: center; }
             .modal-title { justify-content: center; font-size: 1.8rem; text-align: center; width: 100%; }
             .modal-category { display: block; text-align: center; margin-top: 5px; width: 100%; }
             
             .modal-body { padding: 0 20px 30px; margin-top: 0; }
-            .brands-grid { grid-template-columns: 1fr; }
+            .brands-grid, .brands-list { grid-template-columns: 1fr; }
             .search-input { font-size: 1rem; padding: 15px 20px; }
             .tag-btn { font-size: 0.9rem; padding: 6px 18px; }
         }
     </style>
 </head>
-<body>
+<body id="main-content">
 
     <!-- Page Loading Progress Bar -->
     <div class="page-progress" id="pageProgress"></div>
@@ -1278,7 +1023,6 @@
     </button>
 
     <nav class="navbar" role="navigation" aria-label="القائمة الرئيسية">
-        <!-- الجزء اليمين -->
         <div class="nav-logos">
             <div class="nav-logo-wrapper" title="شعار الكلية">
                 <img src="https://lh3.googleusercontent.com/d/18ntxbXg3NmvBSwBPnuCHIRkaUzS_gYtu" alt="شعار الكلية" class="logo-img faculty">
@@ -1288,10 +1032,8 @@
             </div>
         </div>
 
-        <!-- الجزء اللي في النص -->
         <div class="nav-title">Medical Sharks</div>
 
-        <!-- الجزء الشمال -->
         <div class="nav-logos">
             <div class="nav-logo-wrapper" title="أسرة طلاب من أجل مصر">
                 <img src="https://lh3.googleusercontent.com/d/1_1iDIuogVg8Ur-RRBTnhx-2YrqRtbW5S" alt="طلاب من أجل مصر" class="logo-img family">
@@ -1299,7 +1041,6 @@
             <div class="nav-logo-wrapper" title="اللجنة الاجتماعية">
                 <img src="https://lh3.googleusercontent.com/d/13iby6kkgw6QTBoQeF568C7S0utmEFKUF" alt="اللجنة الاجتماعية" class="logo-img social">
             </div>
-            <!-- زرار الدارك مود -->
             <button class="theme-toggle" id="themeToggle" title="تبديل الوضع"></button>
         </div>
     </nav>
@@ -1307,19 +1048,13 @@
     <section class="hero reveal active">
         <div class="hero-content" id="heroContent">
             <h1 class="hero-main-title">مرحباً بكم في <br> <bdi>Medical Sharks</bdi> 🦈🩺</h1>
-            
             <h2 class="hero-subtitle">المنصة الرسمية لريادة الأعمال بطلاب كلية الطب - جامعة طنطا</h2>
-            
-            <!-- البادچ الشفاف بنفس شكل وتصميم الصورة -->
             <div class="supervision-badge">✨ تحت إشراف اتحاد طلاب طب طنطا ✨</div>
-            
             <p class="hero-desc">
                 نُسلط الضوء على العلامات التجارية والمبادرات الواعدة التي يقودها أطباء المستقبل لنصنع بيئة متكاملة تُعزز التواصل وتدعم الفكر الريادي وتحول الأفكار الطبية والإبداعية إلى مشاريع ناجحة داخل الحرم الجامعي وخارجه.
             </p>
-            
             <div class="hero-btns">
                 <a href="#directory" class="btn btn-primary" id="exploreBtn">تصفح الدليل</a>
-                <!-- لينك فورم التسجيل -->
                 <a href="https://forms.gle/AfWX4H6XoUfS6ZBF6" target="_blank" class="btn btn-outline">تسجيل مشروع جديد</a>
             </div>
         </div>
@@ -1350,7 +1085,6 @@
         <input type="text" id="searchInput" class="search-input" placeholder="ابحث عن اسم المشروع، التصنيف، أو الطالب المالك..." aria-label="البحث في المشاريع">
     </div>
 
-    <!-- حاوية الفلاتر -->
     <div class="tags-container reveal" id="filterTags"></div>
 
     <!-- Sort and View Controls -->
@@ -1374,12 +1108,8 @@
 
     <!-- Brands Directory -->
     <div class="directory-container">
-        <!-- شاشة التحميل مع الدالة الجديدة اللي بتعالج التأخير -->
-        <div id="loading" class="loader-container">
-            <div class="spinner"></div>
-        </div>
+        <div id="loading" class="loader-container"><div class="spinner"></div></div>
         
-        <!-- Spotlight: Brand of the Month -->
         <div id="spotlightSection" class="spotlight-section reveal" style="display: none;">
             <h2 class="spotlight-title">🏆 نجم الشهر 🏆</h2>
             <div id="spotlightGrid" class="spotlight-grid"></div>
@@ -1393,9 +1123,7 @@
         <div class="footer-content">
             <div class="footer-logo">Medical Sharks</div>
             <p class="footer-desc">مبادرة طلابية تهدف إلى بناء مجتمع داعم للمواهب والمشاريع التجارية لطلاب كلية الطب بجامعة طنطا.</p>
-            
             <a href="https://forms.gle/AfWX4H6XoUfS6ZBF6" target="_blank" class="btn btn-primary" style="margin-bottom: 40px; padding: 10px 30px; font-size: 1rem;">انضم إلى المنصة الآن</a>
-            
             <div class="footer-bottom">
                 <p>تم التصميم والتطوير بواسطة <span style="color:var(--primary); font-weight:700;">اتحاد طلاب طب طنطا</span> </p>
             </div>
@@ -1405,12 +1133,10 @@
     <!-- Premium Modal Structure -->
     <div class="modal-overlay" id="brandModal" onclick="closeModal(event)">
         <div class="modal-content">
-            <!-- استخدام SVG بدلاً من النص لضمان التوسيط 100% -->
             <span class="close-btn" onclick="closeModal(event, true)">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </span>
             <div class="modal-header">
-                <!-- Using 1x1 transparent pixel to prevent browser hanging on empty src -->
                 <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="Cover" class="modal-cover" id="modalCover" onerror="this.src='https://via.placeholder.com/800x400/0f172a/ffffff?text=Image+Not+Found'">
             </div>
             <div class="modal-body">
@@ -1426,18 +1152,15 @@
                 <p class="modal-desc" id="modalDesc">الوصف هنا</p>
                 <p class="modal-desc" id="modalStudents" style="margin-top: 15px; color: var(--text-dark); font-weight: 700;"></p>
                 
-                <!-- Discount Box -->
                 <div id="discountContainer" class="discount-code-wrapper"></div>
 
                 <h4 class="modal-section-title">قنوات التواصل</h4>
                 <div class="modal-social-links" id="modalSocial"></div>
                 <button class="share-btn" id="smartShareBtn">🔗 شارك هذا المشروع  </button>
 
-                <!-- Slider / Carousel Section -->
                 <div class="modal-gallery-wrapper" id="galleryWrapper" style="display: none;">
                     <h4 class="modal-section-title" id="galleryTitle">معرض الأعمال</h4>
                     <div class="slider-container">
-                        <!-- أسهم مضبوطة 100% لليمين والشمال -->
                         <button class="slider-btn right-btn" onclick="moveSlide(-1)">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
                         </button>
@@ -1448,7 +1171,6 @@
                     </div>
                     <div class="slider-dots" id="sliderDots"></div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -1475,11 +1197,7 @@
             const toast = document.createElement('div');
             toast.className = `toast ${type}`;
 
-            const icons = {
-                success: '✅',
-                error: '❌',
-                info: 'ℹ️'
-            };
+            const icons = { success: '✅', error: '❌', info: 'ℹ️' };
 
             toast.innerHTML = `
                 <span class="toast-icon">${icons[type]}</span>
@@ -1498,24 +1216,38 @@
         // ===== Back to Top Button =====
         function initBackToTop() {
             const btn = document.getElementById('backToTop');
-
             window.addEventListener('scroll', () => {
-                if (window.pageYOffset > 300) {
-                    btn.classList.add('show');
-                } else {
-                    btn.classList.remove('show');
-                }
+                if (window.pageYOffset > 300) btn.classList.add('show');
+                else btn.classList.remove('show');
             });
-
             btn.addEventListener('click', () => {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
         }
 
-        // ===== Sort Functionality =====
+        // ===== Sort & View Controls =====
+        function initViewControls() {
+            const gridBtn = document.getElementById('gridView');
+            const listBtn = document.getElementById('listView');
+            const brandsContainer = document.getElementById('brandsGrid');
+
+            gridBtn.addEventListener('click', () => {
+                gridBtn.classList.add('active');
+                listBtn.classList.remove('active');
+                brandsContainer.classList.remove('brands-list');
+                brandsContainer.classList.add('brands-grid');
+            });
+
+            listBtn.addEventListener('click', () => {
+                listBtn.classList.add('active');
+                gridBtn.classList.remove('active');
+                brandsContainer.classList.remove('brands-grid');
+                brandsContainer.classList.add('brands-list');
+            });
+        }
+
         function initSortControls() {
             const dropdown = document.getElementById('sortDropdown');
-
             dropdown.addEventListener('change', (e) => {
                 currentSort = e.target.value;
                 applyFilters();
@@ -1524,22 +1256,12 @@
 
         function sortBrands(brands) {
             let sorted = [...brands];
-
             switch(currentSort) {
-                case 'name-asc':
-                    sorted.sort((a, b) => a.BrandName.localeCompare(b.BrandName, 'ar'));
-                    break;
-                case 'name-desc':
-                    sorted.sort((a, b) => b.BrandName.localeCompare(a.BrandName, 'ar'));
-                    break;
-                case 'views-desc':
-                    sorted.sort((a, b) => (b.Views || 0) - (a.Views || 0));
-                    break;
-                case 'newest':
-                    sorted.reverse();
-                    break;
+                case 'name-asc': sorted.sort((a, b) => a.BrandName.localeCompare(b.BrandName, 'ar')); break;
+                case 'name-desc': sorted.sort((a, b) => b.BrandName.localeCompare(a.BrandName, 'ar')); break;
+                case 'views-desc': sorted.sort((a, b) => (parseInt(b.Views) || 0) - (parseInt(a.Views) || 0)); break;
+                case 'newest': sorted.reverse(); break;
             }
-
             return sorted;
         }
 
@@ -1582,24 +1304,6 @@
             }, duration / steps);
         }
 
-        // ===== Lazy Loading for Images =====
-        function initLazyLoading() {
-            const imageObserver = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const img = entry.target;
-                        img.src = img.dataset.src;
-                        img.classList.add('loaded');
-                        observer.unobserve(img);
-                    }
-                });
-            });
-
-            document.querySelectorAll('img[data-src]').forEach(img => {
-                imageObserver.observe(img);
-            });
-        }
-
         // ===== Skeleton Loaders =====
         function showSkeletonLoaders() {
             const container = document.getElementById('brandsGrid');
@@ -1615,7 +1319,6 @@
                     </div>
                 </div>
             `).join('');
-
             container.innerHTML = skeletons;
             container.className = 'skeleton-container';
         }
@@ -1625,7 +1328,6 @@
             container.className = 'brands-grid';
         }
 
-        // Force Scroll to Top on Load
         window.onload = function() {
             setTimeout(function() { window.scrollTo(0, 0); }, 100);
         };
@@ -1635,6 +1337,7 @@
             initParallax();
             initBackToTop();
             initSortControls();
+            initViewControls(); // تفعيل كود شبكة/قائمة
             initFloatingParticles();
             initScrollProgress();
             initRippleEffect();
@@ -1649,6 +1352,7 @@
             });
 
             document.getElementById("smartShareBtn").addEventListener("click", () => {
+                createConfetti(); // إطلاق الاحتفال عند الضغط
                 if (currentBrandData && navigator.share) {
                     navigator.share({
                         title: currentBrandData.BrandName + ' - Medical Sharks',
@@ -1668,17 +1372,12 @@
                 }
             });
 
-            // Keyboard navigation support
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape') {
                     const modal = document.getElementById('brandModal');
-                    if (modal.classList.contains('active')) {
-                        closeModal(null, true);
-                    }
+                    if (modal.classList.contains('active')) closeModal(null, true);
                     const lightbox = document.getElementById('imageLightbox');
-                    if (lightbox.style.display === 'flex') {
-                        closeLightbox();
-                    }
+                    if (lightbox.style.display === 'flex') closeLightbox();
                 }
             });
         });
@@ -1689,45 +1388,33 @@
             let fileId = null;
             const driveRegex = /\/file\/d\/([a-zA-Z0-9_-]+)/;
             const match = url.match(driveRegex);
-            if (match && match[1]) {
-                fileId = match[1];
-            } else {
+            if (match && match[1]) fileId = match[1];
+            else {
                 const idRegex = /[?&]id=([a-zA-Z0-9_-]+)/;
                 const match2 = url.match(idRegex);
-                if (match2 && match2[1] && url.includes('drive.google.com')) {
-                    fileId = match2[1];
-                }
+                if (match2 && match2[1] && url.includes('drive.google.com')) fileId = match2[1];
             }
-            if (fileId) {
-                return "https://lh3.googleusercontent.com/d/" + fileId;
-            }
-            return url;
+            return fileId ? "https://lh3.googleusercontent.com/d/" + fileId : url;
         }
 
         // --- Theme Toggle Logic ---
         function initTheme() {
             const themeBtn = document.getElementById('themeToggle');
             const savedTheme = localStorage.getItem('sharks-theme');
-            
             const sunIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>`;
             const moonIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`;
 
             if (savedTheme === 'dark') {
                 document.body.classList.add('dark-mode');
                 themeBtn.innerHTML = sunIcon;
-            } else {
-                themeBtn.innerHTML = moonIcon;
-            }
+            } else themeBtn.innerHTML = moonIcon;
             
             themeBtn.addEventListener('click', () => {
                 document.body.classList.toggle('dark-mode');
                 const isDark = document.body.classList.contains('dark-mode');
-                
                 themeBtn.innerHTML = isDark ? sunIcon : moonIcon;
-                
                 themeBtn.style.transform = 'scale(0.7) rotate(30deg)';
                 setTimeout(() => { themeBtn.style.transform = 'scale(1) rotate(0deg)'; }, 200);
-
                 localStorage.setItem('sharks-theme', isDark ? 'dark' : 'light');
             });
         }
@@ -1746,47 +1433,31 @@
         function revealOnScroll() {
             var reveals = document.querySelectorAll(".reveal:not(.active)");
             for (var i = 0; i < reveals.length; i++) {
-                var windowHeight = window.innerHeight;
                 var elementTop = reveals[i].getBoundingClientRect().top;
-                if (elementTop < windowHeight - 100) {
-                    reveals[i].classList.add("active");
-                }
+                if (elementTop < window.innerHeight - 100) reveals[i].classList.add("active");
             }
         }
 
-        // --- تعديل دالة جلب البيانات (الحماية من التعليق اللانهائي) ---
         async function fetchBrands() {
             const loadingElement = document.getElementById('loading');
-
-            // عرض Skeleton Loaders
             showSkeletonLoaders();
             loadingElement.style.display = 'none';
 
-            // عمل "تايم أوت" 15 ثانية لمنع التحميل اللانهائي
             const controller = new AbortController();
             const timeoutId = setTimeout(() => controller.abort(), 15000);
 
             try {
                 const response = await fetch(API_URL, { signal: controller.signal });
-                clearTimeout(timeoutId); // لو الداتا جت قبل 15 ثانية، نلغي التايم أوت
-
+                clearTimeout(timeoutId);
                 allBrands = await response.json();
                 hideSkeletonLoaders();
-
-                // تحديث الإحصائيات
                 updateStats();
-
-                // إنشاء التصنيفات أوتوماتيكياً بناءً على الأكثر تكراراً
                 generateDynamicCategories();
                 applyFilters();
-
-                // عرض رسالة ترحيب
                 showToast('تم تحميل المشاريع بنجاح! 🦈', 'success');
-
             } catch (error) {
                 hideSkeletonLoaders();
                 if (error.name === 'AbortError') {
-                    // لو عدى 15 ثانية والسيرفر ماردش
                     document.getElementById('brandsGrid').innerHTML = `
                         <div style="text-align: center; color: var(--text-muted); grid-column: 1/-1; padding: 60px 20px;">
                             <p style="font-size: 1.2rem; margin-bottom: 15px;">جاري تجهيز البيانات، برجاء تحديث الصفحة 🦈</p>
@@ -1795,41 +1466,28 @@
                     `;
                     showToast('حدث تأخير في التحميل، حاول مرة أخرى', 'error');
                 } else {
-                    // لو فيه خطأ تاني في الرابط أو الشيت
                     document.getElementById('brandsGrid').innerHTML = "<p style='color:red; text-align:center; grid-column: 1/-1; padding: 40px;'>عذراً، حدث خطأ في الاتصال بقاعدة البيانات. يرجى المحاولة لاحقاً.</p>";
                     showToast('حدث خطأ في تحميل البيانات', 'error');
                 }
             }
         }
 
-        // --- الدالة الذكية لإنشاء أزرار التصنيف ---
         function generateDynamicCategories() {
             const categoryCounts = {};
-            
-            // حساب تكرار كل تصنيف
             allBrands.forEach(brand => {
                 if (brand.Category && brand.Category.trim() !== '') {
                     const cat = brand.Category.trim();
                     categoryCounts[cat] = (categoryCounts[cat] || 0) + 1;
                 }
             });
-
-            // ترتيب التصنيفات من الأكتر للأقل
             const sortedCategories = Object.keys(categoryCounts).sort((a, b) => categoryCounts[b] - categoryCounts[a]);
-            
-            // اختيار أعلى 4 تصنيفات بس
             const topCategories = sortedCategories.slice(0, 4);
 
             const tagsContainer = document.getElementById('filterTags');
-            // الحفاظ على زرار "عرض الكل"
             tagsContainer.innerHTML = '<button class="tag-btn active" data-filter="all">عرض الكل</button>';
-
-            // رسم باقي الزراير
             topCategories.forEach(cat => {
                 tagsContainer.innerHTML += `<button class="tag-btn" data-filter="${cat}">${cat}</button>`;
             });
-
-            // تفعيل فلاتر الزراير الجديدة
             setupFilters();
         }
 
@@ -1854,10 +1512,7 @@
                 const matchesTag = currentFilter === 'all' || (brand.Category && brand.Category.includes(currentFilter));
                 return matchesSearch && matchesTag;
             });
-
-            // تطبيق الترتيب
             filteredBrands = sortBrands(filteredBrands);
-
             renderCards(filteredBrands);
         }
 
@@ -1874,31 +1529,22 @@
             
             if(brandsData && brandsData.length > 0) {
                 brandsData.forEach((brand) => {
-                    if (brand.BrandOfTheMonth && brand.BrandOfTheMonth.toString().trim() !== '' && brand.BrandOfTheMonth.toString().toLowerCase() !== 'false') {
-                        botmBrands.push(brand);
-                    } else {
-                        regularBrands.push(brand);
-                    }
+                    if (brand.BrandOfTheMonth && brand.BrandOfTheMonth.toString().trim() !== '' && brand.BrandOfTheMonth.toString().toLowerCase() !== 'false') botmBrands.push(brand);
+                    else regularBrands.push(brand);
                 });
             }
 
             const searchTerm = document.getElementById('searchInput').value;
             if (botmBrands.length > 0 && currentFilter === 'all' && searchTerm === '') {
                 spotlightSection.style.display = 'block';
-                botmBrands.forEach((brand) => {
-                    spotlightGrid.insertAdjacentHTML('beforeend', createBrandCard(brand, true));
-                });
+                botmBrands.forEach((brand) => { spotlightGrid.insertAdjacentHTML('beforeend', createBrandCard(brand, true)); });
             } else {
                 spotlightSection.style.display = 'none';
-                if (searchTerm !== '' || currentFilter !== 'all') {
-                    regularBrands = [...botmBrands, ...regularBrands];
-                }
+                if (searchTerm !== '' || currentFilter !== 'all') regularBrands = [...botmBrands, ...regularBrands];
             }
 
             if(regularBrands.length > 0) {
-                regularBrands.forEach((brand) => {
-                    gridElement.insertAdjacentHTML('beforeend', createBrandCard(brand, false));
-                });
+                regularBrands.forEach((brand) => { gridElement.insertAdjacentHTML('beforeend', createBrandCard(brand, false)); });
                 setTimeout(revealOnScroll, 50); 
             } else if (botmBrands.length === 0) {
                  gridElement.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); font-size: 1.2rem; padding: 40px 0;">لا توجد مشاريع مطابقة لبحثك في الوقت الحالي.</p>';
@@ -1909,11 +1555,10 @@
             const brandJson = encodeURIComponent(JSON.stringify(brand));
             const coverImg = getDirectDriveLink(brand.CoverImage) || 'https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=800&q=80';
             const logoImg = getDirectDriveLink(brand.LogoImage) || 'https://via.placeholder.com/150/ffffff/0b5b9c?text=Logo';
-
             const badgeHTML = isBotM ? `<div class="botm-badge">🏆 براند الشهر</div>` : '';
 
             return `
-                <div class="brand-card reveal" onclick="openModal('${brandJson}')" role="article" aria-label="مشروع ${brand.BrandName}" tabindex="0" onkeypress="if(event.key==='Enter') openModal('${brandJson}')">
+                <div class="brand-card reveal" onclick="openModal('${brandJson}')" role="article" aria-label="مشروع ${brand.BrandName}" tabindex="0">
                     ${badgeHTML}
                     <div class="cover-image-container">
                         <img loading="lazy" src="${coverImg}" class="cover-image" alt="صورة غلاف ${brand.BrandName}" onerror="this.src='https://via.placeholder.com/800x400/0f172a/ffffff?text=Image+Not+Found'">
@@ -1925,7 +1570,6 @@
                         <h2 class="brand-name">${brand.BrandName}</h2>
                         <span class="brand-category">${brand.Category}</span>
                         <p class="brand-description">${brand.Description || 'لا يوجد وصف متاح.'}</p>
-
                         <div class="card-footer-action">
                             <p class="students-names">المؤسسون: <strong>${brand.Students || 'طلاب الكلية'}</strong></p>
                             <span class="read-more-text">عرض التفاصيل <span class="read-more-arrow">←</span></span>
@@ -1952,29 +1596,23 @@
                 box.style.background = '#25D366';
                 box.style.color = '#fff';
                 box.style.borderColor = '#25D366';
-                
-                setTimeout(() => {
-                    box.innerHTML = originalHTML;
-                    box.style = '';
-                }, 2000);
+                setTimeout(() => { box.innerHTML = originalHTML; box.style = ''; }, 2000);
             });
         }
 
         function openModal(brandJson) {
             const brand = JSON.parse(decodeURIComponent(brandJson));
             currentBrandData = brand;
+            
+            // حل مشكلة النزول لآخر الشاشة (إرجاع الكارت من البداية)
+            const modalContent = document.querySelector('#brandModal .modal-content');
+            if(modalContent) modalContent.scrollTop = 0;
 
             document.getElementById('modalCover').src = getDirectDriveLink(brand.CoverImage) || 'https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=800&q=80';
             document.getElementById('modalLogo').src = getDirectDriveLink(brand.LogoImage) || 'https://via.placeholder.com/150/ffffff/0b5b9c?text=Logo';
             
-            // إصلاح الغلطة ورجوع تعريف المتغير isBotm
             const isBotm = brand.BrandOfTheMonth && brand.BrandOfTheMonth.toString().trim() !== '' && brand.BrandOfTheMonth.toString().toLowerCase() !== 'false';
-            
-            // تعديل فصل الكأس عن الاسم لضمان التوسيط الهندسي
-            const titleHTML = isBotm 
-                ? `<span style="font-size: 1.5rem; display: flex; align-items: center;" title="براند الشهر">🏆</span> <span>${brand.BrandName}</span>` 
-                : `<span>${brand.BrandName}</span>`;
-            document.getElementById('modalTitle').innerHTML = titleHTML;
+            document.getElementById('modalTitle').innerHTML = isBotm ? `<span style="font-size: 1.5rem; display: flex; align-items: center;" title="براند الشهر">🏆</span> <span>${brand.BrandName}</span>` : `<span>${brand.BrandName}</span>`;
             
             document.getElementById('modalCategory').innerText = brand.Category;
             document.getElementById('modalDesc').innerText = brand.Description || 'لم يتم إضافة تفاصيل إضافية لهذا المشروع بعد.';
@@ -1992,49 +1630,35 @@
             trackAction(brand.BrandName, 'view');
             
             let socialHTML = '';
-            if (brand.Facebook) socialHTML += `<a href="${brand.Facebook}" target="_blank" class="social-link-item fb-btn" onclick="trackAction('${brand.BrandName}', 'click')">فيسبوك</a>`;
-            if (brand.Instagram) socialHTML += `<a href="${brand.Instagram}" target="_blank" class="social-link-item ig-btn" onclick="trackAction('${brand.BrandName}', 'click')">إنستجرام</a>`;
-            if (brand.WhatsApp) socialHTML += `<a href="https://wa.me/${brand.WhatsApp}" target="_blank" class="social-link-item wa-btn" onclick="trackAction('${brand.BrandName}', 'click')">واتساب</a>`;
+            if (brand.Facebook) socialHTML += `<a href="${brand.Facebook}" target="_blank" class="social-link-item fb-btn">فيسبوك</a>`;
+            if (brand.Instagram) socialHTML += `<a href="${brand.Instagram}" target="_blank" class="social-link-item ig-btn">إنستجرام</a>`;
+            if (brand.WhatsApp) socialHTML += `<a href="https://wa.me/${brand.WhatsApp}" target="_blank" class="social-link-item wa-btn">واتساب</a>`;
             
             const socialContainer = document.getElementById('modalSocial');
-            if(socialHTML === '') {
-                socialContainer.innerHTML = '<p style="color:var(--text-muted);">لا توجد قنوات تواصل مسجلة حالياً.</p>';
-            } else {
-                socialContainer.innerHTML = socialHTML;
-            }
+            socialContainer.innerHTML = socialHTML || '<p style="color:var(--text-muted);">لا توجد قنوات تواصل مسجلة حالياً.</p>';
 
             const galleryWrapper = document.getElementById('galleryWrapper');
             const sliderTrack = document.getElementById('modalSlider');
             const dotsContainer = document.getElementById('sliderDots');
             
-            sliderTrack.innerHTML = '';
-            dotsContainer.innerHTML = '';
-            currentSlide = 0;
-            totalSlides = 0;
+            sliderTrack.innerHTML = ''; dotsContainer.innerHTML = '';
+            currentSlide = 0; totalSlides = 0;
 
             let images = [];
             for(let i=1; i<=10; i++) {
                 let galImg = brand[`Gallery${i}`];
-                if(galImg) {
-                    let imgStr = galImg.toString().trim();
-                    if(imgStr !== '' && imgStr.includes('http')) {
-                        images.push(getDirectDriveLink(imgStr));
-                    }
-                }
+                if(galImg && galImg.toString().trim() !== '' && galImg.toString().includes('http')) images.push(getDirectDriveLink(galImg.toString().trim()));
             }
 
             if (images.length > 0) {
                 galleryWrapper.style.display = 'block';
                 totalSlides = images.length;
-                
                 images.forEach((imgSrc, index) => {
                     sliderTrack.innerHTML += `<img src="${imgSrc}" class="slide-img" onclick="openLightbox(this.src)" onerror="this.src='https://via.placeholder.com/800x400/0f172a/ffffff?text=Error+Loading+Image'">`;
                     dotsContainer.innerHTML += `<div class="dot ${index === 0 ? 'active' : ''}" onclick="goToSlide(${index})"></div>`;
                 });
-                
                 document.querySelector('.right-btn').style.display = totalSlides > 1 ? 'flex' : 'none';
                 document.querySelector('.left-btn').style.display = totalSlides > 1 ? 'flex' : 'none';
-                
                 updateSlider();
             } else {
                 galleryWrapper.style.display = 'none';
@@ -2044,7 +1668,6 @@
             document.body.style.overflow = 'hidden'; 
         }
 
-        // --- Lightbox Functions ---
         function openLightbox(src) {
             if(src.includes('Error+Loading+Image') || src.includes('data:image')) return; 
             const lb = document.getElementById('imageLightbox');
@@ -2059,7 +1682,6 @@
             setTimeout(() => lb.style.display = 'none', 300);
         }
 
-        // --- Slider Functions ---
         function moveSlide(direction) {
             currentSlide = (currentSlide + direction + totalSlides) % totalSlides;
             updateSlider();
@@ -2074,39 +1696,27 @@
             const track = document.getElementById('modalSlider');
             const dots = document.querySelectorAll('.dot');
             track.style.transform = `translateX(${currentSlide * 100}%)`;
-            dots.forEach((dot, index) => {
-                dot.classList.toggle('active', index === currentSlide);
-            });
+            dots.forEach((dot, index) => { dot.classList.toggle('active', index === currentSlide); });
         }
 
         function closeModal(event, forceClose = false) {
             if (forceClose || event.target.id === 'brandModal') {
                 document.getElementById('brandModal').classList.remove('active');
-                document.body.style.overflow = 'auto';
+                document.body.style.overflow = 'auto'; 
             }
         }
 
         // ===== Floating Particles =====
         function initFloatingParticles() {
             const container = document.getElementById('particles');
-            const particleCount = 15;
-
-            for (let i = 0; i < particleCount; i++) {
+            for (let i = 0; i < 15; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle';
-
                 const size = Math.random() * 30 + 10;
-                const left = Math.random() * 100;
-                const delay = Math.random() * 20;
-                const duration = Math.random() * 10 + 15;
-
-                particle.style.width = `${size}px`;
-                particle.style.height = `${size}px`;
-                particle.style.left = `${left}%`;
-                particle.style.top = `${Math.random() * 100}%`;
-                particle.style.animationDelay = `${delay}s`;
-                particle.style.animationDuration = `${duration}s`;
-
+                particle.style.width = `${size}px`; particle.style.height = `${size}px`;
+                particle.style.left = `${Math.random() * 100}%`; particle.style.top = `${Math.random() * 100}%`;
+                particle.style.animationDelay = `${Math.random() * 20}s`;
+                particle.style.animationDuration = `${Math.random() * 10 + 15}s`;
                 container.appendChild(particle);
             }
         }
@@ -2114,14 +1724,9 @@
         // ===== Scroll Progress =====
         function initScrollProgress() {
             const progressBar = document.getElementById('scrollProgressBar');
-
             window.addEventListener('scroll', () => {
-                const windowHeight = window.innerHeight;
-                const documentHeight = document.documentElement.scrollHeight - windowHeight;
-                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                const scrollPercentage = (scrollTop / documentHeight);
-
-                progressBar.style.transform = `scaleX(${scrollPercentage})`;
+                const documentHeight = document.documentElement.scrollHeight - window.innerHeight;
+                progressBar.style.transform = `scaleX(${(window.pageYOffset || document.documentElement.scrollTop) / documentHeight})`;
             });
         }
 
@@ -2130,10 +1735,8 @@
             document.addEventListener('click', (e) => {
                 const ripple = document.createElement('div');
                 ripple.className = 'ripple';
-                ripple.style.left = e.clientX + 'px';
-                ripple.style.top = e.clientY + 'px';
+                ripple.style.left = e.clientX + 'px'; ripple.style.top = e.clientY + 'px';
                 document.body.appendChild(ripple);
-
                 setTimeout(() => ripple.remove(), 600);
             });
         }
@@ -2141,227 +1744,92 @@
         // ===== Confetti Effect =====
         function createConfetti() {
             const colors = ['#0b5b9c', '#d97706', '#f59e0b', '#3b82f6'];
-            const confettiCount = 50;
-
-            for (let i = 0; i < confettiCount; i++) {
+            for (let i = 0; i < 50; i++) {
                 const confetti = document.createElement('div');
                 confetti.className = 'confetti';
                 confetti.style.left = Math.random() * 100 + '%';
                 confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
                 confetti.style.animationDelay = Math.random() * 0.5 + 's';
                 confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
-
                 document.body.appendChild(confetti);
-
                 setTimeout(() => confetti.remove(), 3000);
             }
         }
 
-        // ===== Page Load Progress =====
         window.addEventListener('load', () => {
             const progress = document.getElementById('pageProgress');
             progress.style.transform = 'scaleX(1)';
-            setTimeout(() => {
-                progress.style.opacity = '0';
-            }, 500);
+            setTimeout(() => { progress.style.opacity = '0'; }, 500);
         });
 
-        // تحديث دالة المشاركة لإضافة Confetti
-        const originalShareBtn = document.getElementById("smartShareBtn");
-        if (originalShareBtn) {
-            const originalOnClick = originalShareBtn.onclick;
-            originalShareBtn.addEventListener("click", () => {
-                createConfetti();
-            });
-        }
-
         // ===== Futuristic Mobile Features =====
-
-        // Touch Haptic Feedback Simulation
         function triggerHaptic(intensity = 'light') {
             if ('vibrate' in navigator) {
-                switch(intensity) {
-                    case 'light':
-                        navigator.vibrate(10);
-                        break;
-                    case 'medium':
-                        navigator.vibrate(20);
-                        break;
-                    case 'heavy':
-                        navigator.vibrate([10, 20, 10]);
-                        break;
-                }
+                if(intensity==='light') navigator.vibrate(10);
+                else if(intensity==='medium') navigator.vibrate(20);
+                else navigator.vibrate([10, 20, 10]);
             }
         }
 
-        // Enhanced Touch Interactions
         function initTouchInteractions() {
-            // Add touch feedback to all cards
             document.addEventListener('touchstart', (e) => {
-                if (e.target.closest('.brand-card')) {
-                    triggerHaptic('light');
-                    e.target.closest('.brand-card').classList.add('touch-pulse');
-                }
-                if (e.target.closest('.btn')) {
-                    triggerHaptic('light');
-                }
+                if (e.target.closest('.brand-card')) { triggerHaptic('light'); e.target.closest('.brand-card').classList.add('touch-pulse'); }
+                if (e.target.closest('.btn')) triggerHaptic('light');
             });
-
             document.addEventListener('touchend', (e) => {
-                if (e.target.closest('.brand-card')) {
-                    setTimeout(() => {
-                        e.target.closest('.brand-card')?.classList.remove('touch-pulse');
-                    }, 1000);
-                }
+                if (e.target.closest('.brand-card')) setTimeout(() => { e.target.closest('.brand-card')?.classList.remove('touch-pulse'); }, 1000);
             });
         }
 
-        // Swipe Gestures for Slider
         function initSwipeGestures() {
             const slider = document.getElementById('modalSlider');
             if (!slider) return;
-
-            let touchStartX = 0;
-            let touchEndX = 0;
-
-            slider.addEventListener('touchstart', (e) => {
-                touchStartX = e.changedTouches[0].screenX;
-            });
-
+            let touchStartX = 0, touchEndX = 0;
+            slider.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; });
             slider.addEventListener('touchend', (e) => {
                 touchEndX = e.changedTouches[0].screenX;
-                handleSwipe();
+                if (touchEndX < touchStartX - 50) { moveSlide(1); triggerHaptic('medium'); }
+                if (touchEndX > touchStartX + 50) { moveSlide(-1); triggerHaptic('medium'); }
             });
-
-            function handleSwipe() {
-                if (touchEndX < touchStartX - 50) {
-                    moveSlide(1); // Swipe left
-                    triggerHaptic('medium');
-                }
-                if (touchEndX > touchStartX + 50) {
-                    moveSlide(-1); // Swipe right
-                    triggerHaptic('medium');
-                }
-            }
         }
 
-        // Pull to Refresh
-        let pullStartY = 0;
-        let isPulling = false;
-
+        let pullStartY = 0, isPulling = false;
         function initPullToRefresh() {
-            if (window.innerWidth > 768) return; // Mobile only
-
+            if (window.innerWidth > 768) return;
             const pullIndicator = document.createElement('div');
-            pullIndicator.className = 'pull-to-refresh';
-            pullIndicator.innerHTML = '↻';
-            pullIndicator.style.fontSize = '24px';
+            pullIndicator.className = 'pull-to-refresh'; pullIndicator.innerHTML = '↻'; pullIndicator.style.fontSize = '24px';
             document.body.appendChild(pullIndicator);
 
-            document.addEventListener('touchstart', (e) => {
-                if (window.scrollY === 0) {
-                    pullStartY = e.touches[0].clientY;
-                    isPulling = true;
-                }
-            });
-
+            document.addEventListener('touchstart', (e) => { if (window.scrollY === 0) { pullStartY = e.touches[0].clientY; isPulling = true; } });
             document.addEventListener('touchmove', (e) => {
                 if (!isPulling) return;
-
                 const pullDistance = e.touches[0].clientY - pullStartY;
-
-                if (pullDistance > 0 && pullDistance < 100) {
-                    pullIndicator.classList.add('active');
-                    pullIndicator.style.transform = `translateX(-50%) rotate(${pullDistance * 3.6}deg)`;
-                }
+                if (pullDistance > 0 && pullDistance < 100) { pullIndicator.classList.add('active'); pullIndicator.style.transform = `translateX(-50%) rotate(${pullDistance * 3.6}deg)`; }
             });
-
             document.addEventListener('touchend', (e) => {
                 if (!isPulling) return;
-
-                const pullDistance = e.changedTouches[0].clientY - pullStartY;
-
-                if (pullDistance > 80) {
-                    triggerHaptic('heavy');
-                    location.reload();
-                }
-
-                pullIndicator.classList.remove('active');
-                pullIndicator.style.transform = 'translateX(-50%) rotate(0deg)';
+                if (e.changedTouches[0].clientY - pullStartY > 80) { triggerHaptic('heavy'); location.reload(); }
+                pullIndicator.classList.remove('active'); pullIndicator.style.transform = 'translateX(-50%) rotate(0deg)';
                 isPulling = false;
             });
         }
 
-        // Floating Action Button (FAB)
-        function initFAB() {
-            if (window.innerWidth > 768) return; // Mobile only
-
-            const fabMenu = document.createElement('div');
-            fabMenu.className = 'fab-menu';
-            fabMenu.innerHTML = `
-                <button class="fab-main" onclick="scrollToTop()">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="18 15 12 9 6 15"></polyline>
-                    </svg>
-                </button>
-            `;
-            document.body.appendChild(fabMenu);
-
-            // Show/hide based on scroll
-            window.addEventListener('scroll', () => {
-                if (window.pageYOffset > 300) {
-                    fabMenu.style.opacity = '1';
-                    fabMenu.style.pointerEvents = 'all';
-                } else {
-                    fabMenu.style.opacity = '0';
-                    fabMenu.style.pointerEvents = 'none';
-                }
-            });
-        }
-
-        function scrollToTop() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            triggerHaptic('medium');
-        }
-
-        // Enhanced Card Interactions with 3D Effect
         function init3DCardEffect() {
-            const cards = document.querySelectorAll('.brand-card');
-
-            cards.forEach(card => {
+            document.querySelectorAll('.brand-card').forEach(card => {
                 card.addEventListener('touchmove', (e) => {
                     const rect = card.getBoundingClientRect();
-                    const x = e.touches[0].clientX - rect.left;
-                    const y = e.touches[0].clientY - rect.top;
-
-                    const centerX = rect.width / 2;
-                    const centerY = rect.height / 2;
-
-                    const rotateX = (y - centerY) / 20;
-                    const rotateY = (centerX - x) / 20;
-
-                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+                    const x = e.touches[0].clientX - rect.left, y = e.touches[0].clientY - rect.top;
+                    card.style.transform = `perspective(1000px) rotateX(${(y - rect.height/2)/20}deg) rotateY(${(rect.width/2 - x)/20}deg) scale(1.02)`;
                 });
-
-                card.addEventListener('touchend', () => {
-                    card.style.transform = '';
-                });
+                card.addEventListener('touchend', () => { card.style.transform = ''; });
             });
         }
 
-        // Initialize all futuristic features
         if (window.innerWidth <= 768) {
             document.addEventListener('DOMContentLoaded', () => {
-                initTouchInteractions();
-                initPullToRefresh();
-                initFAB();
-                setTimeout(initSwipeGestures, 1000);
+                initTouchInteractions(); initPullToRefresh(); setTimeout(initSwipeGestures, 1000);
             });
-
-            // Refresh 3D effect after cards are loaded
-            window.addEventListener('load', () => {
-                setTimeout(init3DCardEffect, 500);
-            });
+            window.addEventListener('load', () => { setTimeout(init3DCardEffect, 500); });
         }
 
         // ===== Service Worker Registration =====
@@ -2371,25 +1839,14 @@
                     .then(registration => {
                         console.log('ServiceWorker registered successfully:', registration.scope);
                         showToast('يمكنك الآن استخدام الموقع بدون إنترنت! 🚀', 'success', 4000);
-                    })
-                    .catch(error => {
-                        console.log('ServiceWorker registration failed:', error);
-                    });
+                    }).catch(error => { console.log('ServiceWorker registration failed:', error); });
             });
         }
 
-        // ===== Install PWA Prompt =====
         let deferredPrompt;
         window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-
-            // يمكن إضافة زرار لتثبيت التطبيق لاحقاً
-            setTimeout(() => {
-                if (deferredPrompt) {
-                    showToast('قم بتثبيت Medical Sharks كتطبيق! 📱', 'info', 5000);
-                }
-            }, 30000); // بعد 30 ثانية من فتح الموقع
+            e.preventDefault(); deferredPrompt = e;
+            setTimeout(() => { if (deferredPrompt) showToast('قم بتثبيت Medical Sharks كتطبيق! 📱', 'info', 5000); }, 30000);
         });
     </script>
 </body>
